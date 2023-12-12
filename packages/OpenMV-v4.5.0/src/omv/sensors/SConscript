@@ -1,0 +1,12 @@
+import os
+from building import *
+
+objs = []
+cwd  = GetCurrentDir()
+CPPPATH = [cwd]
+
+src = Glob('*.c')
+
+objs = DefineGroup('Openmv-Sensor', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('objs')

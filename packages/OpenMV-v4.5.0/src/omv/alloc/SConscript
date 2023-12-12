@@ -1,0 +1,15 @@
+import os
+from building import *
+
+objs = []
+cwd  = GetCurrentDir()
+CPPPATH = [cwd]
+
+src = Glob('fb_alloc.c')
+src += Glob('umm_malloc.c')
+src += Glob('unaligned_memcpy.c')
+src += Glob('xalloc.c')
+
+objs = DefineGroup('Openmv', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('objs')

@@ -1,0 +1,15 @@
+import os
+from building import *
+
+objs = []
+cwd  = GetCurrentDir()
+CPPPATH = [cwd]
+
+src = Glob('*.c')
+SrcRemove(src, ['ini.c'])
+# SrcRemove(src, ['mutex.c'])
+SrcRemove(src, ['trace.c'])
+
+objs = DefineGroup('Openmv', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('objs')

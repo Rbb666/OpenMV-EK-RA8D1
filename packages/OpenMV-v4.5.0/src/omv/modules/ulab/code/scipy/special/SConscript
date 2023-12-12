@@ -1,0 +1,18 @@
+from building import *
+import os
+
+group = []
+cwd = GetCurrentDir()
+src = Glob('*.c')
+
+CPPPATH = [cwd]
+LOCAL_CCFLAGS = ''
+
+if rtconfig.PLATFORM in ['gcc', 'armclang'] :
+    LOCAL_CCFLAGS += ' -std=gnu99'
+elif rtconfig.PLATFORM == 'armcc':
+    LOCAL_CCFLAGS += ' --c99 --gnu'
+
+objs = DefineGroup('Openmv', src, depend = [''], CPPPATH = CPPPATH, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+
+Return('group')

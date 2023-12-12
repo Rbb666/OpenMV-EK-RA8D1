@@ -1,0 +1,18 @@
+import os
+from building import *
+
+src = []
+objs = []
+cwd  = GetCurrentDir()
+CPPPATH = [cwd]
+path    = [cwd + '/cmsis/include']
+
+src += Glob('cmsis/src/dsp/CommonTables/*.c')
+src += Glob('cmsis/src/dsp/FastMathFunctions/*.c')
+# src += Glob('cmsis/src/dsp/MatrixFunctions/*.c')
+src += Glob('cmsis/src/dsp/TransformFunctions/arm_rfft_init_q15.c')
+src += Glob('cmsis/src/dsp/TransformFunctions/arm_rfft_init_q31.c')
+
+objs = DefineGroup('Openmv-cmsis', src, depend = [''], CPPPATH = path)
+
+Return('objs')

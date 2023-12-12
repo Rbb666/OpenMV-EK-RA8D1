@@ -1,0 +1,28 @@
+import os
+from building import *
+import rtconfig
+
+objs = []
+# get current directory
+cwd     = GetCurrentDir()
+CPPPATH = [cwd]
+src = []
+
+LOCAL_CCFLAGS = ''
+
+if rtconfig.PLATFORM in ['gcc', 'armclang'] :
+    LOCAL_CCFLAGS += ' -std=gnu99'
+elif rtconfig.PLATFORM == 'armcc':
+    LOCAL_CCFLAGS += ' --c99 --gnu'
+
+CPPDEFINES = ['ARM_MATH_CM85', '__FPU_PRESENT']
+CPPDEFINES += ['MICROPY_PY_DISPLAY = 1']
+
+list = os.listdir(cwd)
+for item in list:
+    if os.path.isfile(os.path.join(cwd, item, 'SConscript')):
+        objs = objs + SConscript(os.path.join(item, 'SConscript'))
+
+group = DefineGroup('Openmv', src, depend = ['PKG_USING_MICROPYTHON'], CPPPATH = CPPPATH, LOCAL_CCFLAGS = LOCAL_CCFLAGS, CPPDEFINES = CPPDEFINES)
+
+Return('group')
