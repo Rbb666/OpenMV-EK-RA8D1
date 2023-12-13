@@ -171,6 +171,8 @@
       <configSetting altId="sci2.rxd2.pa02" configurationId="sci2.rxd2" isUsedByDriver="true"/>
       <configSetting altId="sci2.sck2.pa04" configurationId="sci2.sck2" isUsedByDriver="true"/>
       <configSetting altId="sci2.txd2.pa03" configurationId="sci2.txd2" isUsedByDriver="true"/>
+      <configSetting altId="sci3.rxd3.p408" configurationId="sci3.rxd3" isUsedByDriver="true"/>
+      <configSetting altId="sci3.txd3.p409" configurationId="sci3.txd3" isUsedByDriver="true"/>
       <configSetting altId="sci9.rxd9.pa15" configurationId="sci9.rxd9" isUsedByDriver="true"/>
       <configSetting altId="sci9.txd9.pa14" configurationId="sci9.txd9" isUsedByDriver="true"/>
       <configSetting altId="sdram.a1.p300" configurationId="sdram.a1"/>

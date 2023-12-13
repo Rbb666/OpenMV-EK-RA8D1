@@ -22,13 +22,17 @@
             [14] = mipi_dsi_ferr, /* DSI FERR */
             [15] = mipi_dsi_ppi, /* DSI PPI */
             [16] = drw_int_isr, /* DRW INT (DRW interrupt) */
-            [17] = usbfs_interrupt_handler, /* USBFS INT (USBFS interrupt) */
-            [18] = usbfs_resume_handler, /* USBFS RESUME (USBFS resume interrupt) */
-            [19] = usbfs_d0fifo_handler, /* USBFS FIFO 0 (DMA transfer request 0) */
-            [20] = usbfs_d1fifo_handler, /* USBFS FIFO 1 (DMA transfer request 1) */
-            [21] = usbhs_interrupt_handler, /* USBHS USB INT RESUME (USBHS interr) */
-            [22] = usbhs_d0fifo_handler, /* USBHS FIFO 0 (DMA transfer request 0) */
-            [23] = usbhs_d1fifo_handler, /* USBHS FIFO 1 (DMA transfer request 1) */
+            [17] = sci_b_uart_rxi_isr, /* SCI3 RXI (Receive data full) */
+            [18] = sci_b_uart_txi_isr, /* SCI3 TXI (Transmit data empty) */
+            [19] = sci_b_uart_tei_isr, /* SCI3 TEI (Transmit end) */
+            [20] = sci_b_uart_eri_isr, /* SCI3 ERI (Receive error) */
+            [21] = usbfs_interrupt_handler, /* USBFS INT (USBFS interrupt) */
+            [22] = usbfs_resume_handler, /* USBFS RESUME (USBFS resume interrupt) */
+            [23] = usbfs_d0fifo_handler, /* USBFS FIFO 0 (DMA transfer request 0) */
+            [24] = usbfs_d1fifo_handler, /* USBFS FIFO 1 (DMA transfer request 1) */
+            [25] = usbhs_interrupt_handler, /* USBHS USB INT RESUME (USBHS interr) */
+            [26] = usbhs_d0fifo_handler, /* USBHS FIFO 0 (DMA transfer request 0) */
+            [27] = usbhs_d1fifo_handler, /* USBHS FIFO 1 (DMA transfer request 1) */
         };
         const bsp_interrupt_event_t g_interrupt_event_link_select[BSP_ICU_VECTOR_MAX_ENTRIES] =
         {
@@ -49,13 +53,17 @@
             [14] = BSP_PRV_IELS_ENUM(EVENT_MIPI_DSI_FERR), /* DSI FERR */
             [15] = BSP_PRV_IELS_ENUM(EVENT_MIPI_DSI_PPI), /* DSI PPI */
             [16] = BSP_PRV_IELS_ENUM(EVENT_DRW_INT), /* DRW INT (DRW interrupt) */
-            [17] = BSP_PRV_IELS_ENUM(EVENT_USBFS_INT), /* USBFS INT (USBFS interrupt) */
-            [18] = BSP_PRV_IELS_ENUM(EVENT_USBFS_RESUME), /* USBFS RESUME (USBFS resume interrupt) */
-            [19] = BSP_PRV_IELS_ENUM(EVENT_USBFS_FIFO_0), /* USBFS FIFO 0 (DMA transfer request 0) */
-            [20] = BSP_PRV_IELS_ENUM(EVENT_USBFS_FIFO_1), /* USBFS FIFO 1 (DMA transfer request 1) */
-            [21] = BSP_PRV_IELS_ENUM(EVENT_USBHS_USB_INT_RESUME), /* USBHS USB INT RESUME (USBHS interr) */
-            [22] = BSP_PRV_IELS_ENUM(EVENT_USBHS_FIFO_0), /* USBHS FIFO 0 (DMA transfer request 0) */
-            [23] = BSP_PRV_IELS_ENUM(EVENT_USBHS_FIFO_1), /* USBHS FIFO 1 (DMA transfer request 1) */
+            [17] = BSP_PRV_IELS_ENUM(EVENT_SCI3_RXI), /* SCI3 RXI (Receive data full) */
+            [18] = BSP_PRV_IELS_ENUM(EVENT_SCI3_TXI), /* SCI3 TXI (Transmit data empty) */
+            [19] = BSP_PRV_IELS_ENUM(EVENT_SCI3_TEI), /* SCI3 TEI (Transmit end) */
+            [20] = BSP_PRV_IELS_ENUM(EVENT_SCI3_ERI), /* SCI3 ERI (Receive error) */
+            [21] = BSP_PRV_IELS_ENUM(EVENT_USBFS_INT), /* USBFS INT (USBFS interrupt) */
+            [22] = BSP_PRV_IELS_ENUM(EVENT_USBFS_RESUME), /* USBFS RESUME (USBFS resume interrupt) */
+            [23] = BSP_PRV_IELS_ENUM(EVENT_USBFS_FIFO_0), /* USBFS FIFO 0 (DMA transfer request 0) */
+            [24] = BSP_PRV_IELS_ENUM(EVENT_USBFS_FIFO_1), /* USBFS FIFO 1 (DMA transfer request 1) */
+            [25] = BSP_PRV_IELS_ENUM(EVENT_USBHS_USB_INT_RESUME), /* USBHS USB INT RESUME (USBHS interr) */
+            [26] = BSP_PRV_IELS_ENUM(EVENT_USBHS_FIFO_0), /* USBHS FIFO 0 (DMA transfer request 0) */
+            [27] = BSP_PRV_IELS_ENUM(EVENT_USBHS_FIFO_1), /* USBHS FIFO 1 (DMA transfer request 1) */
         };
         #elif __has_include("r_ioport_b.h")
         BSP_DONT_REMOVE const fsp_vector_t g_vector_table[BSP_IRQ_VECTOR_MAX_ENTRIES] BSP_PLACE_IN_SECTION(BSP_SECTION_APPLICATION_VECTORS) =
@@ -77,6 +85,10 @@
             [BSP_PRV_IELS_ENUM(MIPI_DSI_FERR)] = mipi_dsi_ferr, /* DSI FERR */
             [BSP_PRV_IELS_ENUM(MIPI_DSI_PPI)] = mipi_dsi_ppi, /* DSI PPI */
             [BSP_PRV_IELS_ENUM(DRW_INT)] = drw_int_isr, /* DRW INT (DRW interrupt) */
+            [BSP_PRV_IELS_ENUM(SCI3_RXI)] = sci_b_uart_rxi_isr, /* SCI3 RXI (Receive data full) */
+            [BSP_PRV_IELS_ENUM(SCI3_TXI)] = sci_b_uart_txi_isr, /* SCI3 TXI (Transmit data empty) */
+            [BSP_PRV_IELS_ENUM(SCI3_TEI)] = sci_b_uart_tei_isr, /* SCI3 TEI (Transmit end) */
+            [BSP_PRV_IELS_ENUM(SCI3_ERI)] = sci_b_uart_eri_isr, /* SCI3 ERI (Receive error) */
             [BSP_PRV_IELS_ENUM(USBFS_INT)] = usbfs_interrupt_handler, /* USBFS INT (USBFS interrupt) */
             [BSP_PRV_IELS_ENUM(USBFS_RESUME)] = usbfs_resume_handler, /* USBFS RESUME (USBFS resume interrupt) */
             [BSP_PRV_IELS_ENUM(USBFS_FIFO_0)] = usbfs_d0fifo_handler, /* USBFS FIFO 0 (DMA transfer request 0) */

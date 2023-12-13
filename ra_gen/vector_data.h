@@ -6,7 +6,7 @@
         #endif
                 /* Number of interrupts allocated */
         #ifndef VECTOR_DATA_IRQ_COUNT
-        #define VECTOR_DATA_IRQ_COUNT    (24)
+        #define VECTOR_DATA_IRQ_COUNT    (28)
         #endif
         /* ISR prototypes */
         void sci_b_uart_rxi_isr(void);
@@ -70,20 +70,28 @@
         #define MIPI_DSI_PPI_IRQn          ((IRQn_Type) 15) /* DSI PPI */
         #define VECTOR_NUMBER_DRW_INT ((IRQn_Type) 16) /* DRW INT (DRW interrupt) */
         #define DRW_INT_IRQn          ((IRQn_Type) 16) /* DRW INT (DRW interrupt) */
-        #define VECTOR_NUMBER_USBFS_INT ((IRQn_Type) 17) /* USBFS INT (USBFS interrupt) */
-        #define USBFS_INT_IRQn          ((IRQn_Type) 17) /* USBFS INT (USBFS interrupt) */
-        #define VECTOR_NUMBER_USBFS_RESUME ((IRQn_Type) 18) /* USBFS RESUME (USBFS resume interrupt) */
-        #define USBFS_RESUME_IRQn          ((IRQn_Type) 18) /* USBFS RESUME (USBFS resume interrupt) */
-        #define VECTOR_NUMBER_USBFS_FIFO_0 ((IRQn_Type) 19) /* USBFS FIFO 0 (DMA transfer request 0) */
-        #define USBFS_FIFO_0_IRQn          ((IRQn_Type) 19) /* USBFS FIFO 0 (DMA transfer request 0) */
-        #define VECTOR_NUMBER_USBFS_FIFO_1 ((IRQn_Type) 20) /* USBFS FIFO 1 (DMA transfer request 1) */
-        #define USBFS_FIFO_1_IRQn          ((IRQn_Type) 20) /* USBFS FIFO 1 (DMA transfer request 1) */
-        #define VECTOR_NUMBER_USBHS_USB_INT_RESUME ((IRQn_Type) 21) /* USBHS USB INT RESUME (USBHS interr) */
-        #define USBHS_USB_INT_RESUME_IRQn          ((IRQn_Type) 21) /* USBHS USB INT RESUME (USBHS interr) */
-        #define VECTOR_NUMBER_USBHS_FIFO_0 ((IRQn_Type) 22) /* USBHS FIFO 0 (DMA transfer request 0) */
-        #define USBHS_FIFO_0_IRQn          ((IRQn_Type) 22) /* USBHS FIFO 0 (DMA transfer request 0) */
-        #define VECTOR_NUMBER_USBHS_FIFO_1 ((IRQn_Type) 23) /* USBHS FIFO 1 (DMA transfer request 1) */
-        #define USBHS_FIFO_1_IRQn          ((IRQn_Type) 23) /* USBHS FIFO 1 (DMA transfer request 1) */
+        #define VECTOR_NUMBER_SCI3_RXI ((IRQn_Type) 17) /* SCI3 RXI (Receive data full) */
+        #define SCI3_RXI_IRQn          ((IRQn_Type) 17) /* SCI3 RXI (Receive data full) */
+        #define VECTOR_NUMBER_SCI3_TXI ((IRQn_Type) 18) /* SCI3 TXI (Transmit data empty) */
+        #define SCI3_TXI_IRQn          ((IRQn_Type) 18) /* SCI3 TXI (Transmit data empty) */
+        #define VECTOR_NUMBER_SCI3_TEI ((IRQn_Type) 19) /* SCI3 TEI (Transmit end) */
+        #define SCI3_TEI_IRQn          ((IRQn_Type) 19) /* SCI3 TEI (Transmit end) */
+        #define VECTOR_NUMBER_SCI3_ERI ((IRQn_Type) 20) /* SCI3 ERI (Receive error) */
+        #define SCI3_ERI_IRQn          ((IRQn_Type) 20) /* SCI3 ERI (Receive error) */
+        #define VECTOR_NUMBER_USBFS_INT ((IRQn_Type) 21) /* USBFS INT (USBFS interrupt) */
+        #define USBFS_INT_IRQn          ((IRQn_Type) 21) /* USBFS INT (USBFS interrupt) */
+        #define VECTOR_NUMBER_USBFS_RESUME ((IRQn_Type) 22) /* USBFS RESUME (USBFS resume interrupt) */
+        #define USBFS_RESUME_IRQn          ((IRQn_Type) 22) /* USBFS RESUME (USBFS resume interrupt) */
+        #define VECTOR_NUMBER_USBFS_FIFO_0 ((IRQn_Type) 23) /* USBFS FIFO 0 (DMA transfer request 0) */
+        #define USBFS_FIFO_0_IRQn          ((IRQn_Type) 23) /* USBFS FIFO 0 (DMA transfer request 0) */
+        #define VECTOR_NUMBER_USBFS_FIFO_1 ((IRQn_Type) 24) /* USBFS FIFO 1 (DMA transfer request 1) */
+        #define USBFS_FIFO_1_IRQn          ((IRQn_Type) 24) /* USBFS FIFO 1 (DMA transfer request 1) */
+        #define VECTOR_NUMBER_USBHS_USB_INT_RESUME ((IRQn_Type) 25) /* USBHS USB INT RESUME (USBHS interr) */
+        #define USBHS_USB_INT_RESUME_IRQn          ((IRQn_Type) 25) /* USBHS USB INT RESUME (USBHS interr) */
+        #define VECTOR_NUMBER_USBHS_FIFO_0 ((IRQn_Type) 26) /* USBHS FIFO 0 (DMA transfer request 0) */
+        #define USBHS_FIFO_0_IRQn          ((IRQn_Type) 26) /* USBHS FIFO 0 (DMA transfer request 0) */
+        #define VECTOR_NUMBER_USBHS_FIFO_1 ((IRQn_Type) 27) /* USBHS FIFO 1 (DMA transfer request 1) */
+        #define USBHS_FIFO_1_IRQn          ((IRQn_Type) 27) /* USBHS FIFO 1 (DMA transfer request 1) */
         #endif
 
         #ifdef __cplusplus

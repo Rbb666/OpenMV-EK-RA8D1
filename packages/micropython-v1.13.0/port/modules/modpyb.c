@@ -35,7 +35,10 @@
 #include "modmachine.h"
 #include "extmod/vfs.h"
 #include "extmod/utime_mphal.h"
+#include "pyb_i2c.h"
+#include "pyb_uart.h"
 #include "led.h"
+
 /// \function elapsed_millis(start)
 /// Returns the number of milliseconds which have elapsed since `start`.
 ///
@@ -137,9 +140,13 @@ STATIC const mp_rom_map_elem_t pyb_module_globals_table[] = {
 #if defined(NUM_LEDS)
     { MP_ROM_QSTR(MP_QSTR_LED), MP_ROM_PTR(&pyb_led_type) },
 #endif
-//    { MP_ROM_QSTR(MP_QSTR_I2C), MP_ROM_PTR(&pyb_i2c_type) },
+#ifdef MICROPYTHON_USING_MACHINE_I2C
+    { MP_ROM_QSTR(MP_QSTR_I2C), MP_ROM_PTR(&pyb_i2c_type) },
+#endif
 //    { MP_ROM_QSTR(MP_QSTR_SPI), MP_ROM_PTR(&pyb_spi_type) },
-//    { MP_ROM_QSTR(MP_QSTR_UART), MP_ROM_PTR(&pyb_uart_type) },
+#ifdef MICROPYTHON_USING_MACHINE_UART
+    { MP_ROM_QSTR(MP_QSTR_UART), MP_ROM_PTR(&pyb_uart_type) },
+#endif
 //#if MICROPY_HW_ENABLE_CAN
 //    { MP_ROM_QSTR(MP_QSTR_CAN), MP_ROM_PTR(&pyb_can_type) },
 //#endif

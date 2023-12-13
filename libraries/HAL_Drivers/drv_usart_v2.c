@@ -22,6 +22,12 @@
 #endif /* DRV_DEBUG */
 #include <rtdbg.h>
 
+#ifdef R_SCI_B_UART_H
+    #define R_SCI_UART_Open R_SCI_B_UART_Open
+    #define R_SCI_UART_BaudCalculate R_SCI_B_UART_BaudCalculate
+    #define R_SCI_UART_BaudSet R_SCI_B_UART_BaudSet
+#endif
+
 static struct ra_uart_config uart_config[] =
 {
 #ifdef BSP_USING_UART0
@@ -195,7 +201,6 @@ static void ra_uart_get_config(void)
 #endif
 }
 
-
 /*
  * UART interface
  */
@@ -206,15 +211,19 @@ static rt_err_t ra_uart_configure(struct rt_serial_device *serial, struct serial
     RT_ASSERT(cfg != RT_NULL);
 
     fsp_err_t err = FSP_SUCCESS;
+    sci_b_baud_setting_t baud_setting;
 
     uart = rt_container_of(serial, struct ra_uart, serial);
     RT_ASSERT(uart != RT_NULL);
 
-#ifdef SOC_SERIES_R7FA8M85
-    err = R_SCI_B_UART_Open(uart->config->p_api_ctrl, uart->config->p_cfg);
-#else
     err = R_SCI_UART_Open(uart->config->p_api_ctrl, uart->config->p_cfg);
-#endif
+
+    err = R_SCI_UART_BaudCalculate(cfg->baud_rate, false, 5000u, &baud_setting);
+    RT_ASSERT(FSP_SUCCESS == err);
+
+    err = R_SCI_UART_BaudSet(uart->config->p_api_ctrl, (void *) &baud_setting);
+    RT_ASSERT(FSP_SUCCESS == err);
+
     if (FSP_SUCCESS != err)
     {
         return -RT_ERROR;

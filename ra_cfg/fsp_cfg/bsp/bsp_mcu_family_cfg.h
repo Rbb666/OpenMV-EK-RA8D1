@@ -94,7 +94,7 @@
             (((RA_NOT_DEFINED > 0) ? 0U : 1U) << 19) /* SPI0 */ | \
             (((1 > 0) ? 0U : 1U) << 22) /* SCI9 */ | \
             (((RA_NOT_DEFINED > 0) ? 0U : 1U) << 27) /* SCI4 */ | \
-            (((RA_NOT_DEFINED > 0) ? 0U : 1U) << 28) /* SCI3 */ | \
+            (((1 > 0) ? 0U : 1U) << 28) /* SCI3 */ | \
             (((1 > 0) ? 0U : 1U) << 29) /* SCI2 */ | \
             (((RA_NOT_DEFINED > 0) ? 0U : 1U) << 30) /* SCI1 */ | \
             (((RA_NOT_DEFINED > 0) ? 0U : 1U) << 31) /* SCI0 */)
