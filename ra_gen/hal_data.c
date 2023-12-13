@@ -1,6 +1,300 @@
 /* generated HAL source file - do not edit */
 #include "hal_data.h"
 
+ceu_instance_ctrl_t g_ceu_64X32_ctrl;
+            const ceu_extended_cfg_t g_ceu_64X32_extended_cfg =
+            {
+                .capture_format       = CEU_CAPTURE_FORMAT_DATA_SYNCHRONOUS,
+                .data_bus_width       = CEU_DATA_BUS_SIZE_8_BIT,
+                .edge_info.dsel       = 0,
+                .edge_info.hdsel      = 0,
+                .edge_info.vdsel      = 0,
+                .hsync_polarity       = CEU_HSYNC_POLARITY_HIGH,
+                .vsync_polarity       = CEU_VSYNC_POLARITY_HIGH,
+                .byte_swapping        = {
+                                        .swap_8bit_units  = (0x1 | 0x2 | 0x4 |  0x0) >> 0x00 & 0x01,
+                                        .swap_16bit_units = (0x1 | 0x2 | 0x4 |  0x0) >> 0x01 & 0x01,
+                                        .swap_32bit_units = (0x1 | 0x2 | 0x4 |  0x0) >> 0x02 & 0x01,
+                                        },
+                .burst_mode           = CEU_BURST_TRANSFER_MODE_X8,
+                .image_area_size      = 64 * 32 * 2,
+                .interrupts_enabled   = 0 | \
+                                        R_CEU_CEIER_CPEIE_Msk | \
+                                        0 | \
+                                        R_CEU_CEIER_VDIE_Msk | \
+                                        R_CEU_CEIER_CDTOFIE_Msk | \
+                                        0 | \
+                                        0 | \
+                                        R_CEU_CEIER_VBPIE_Msk | \
+                                        R_CEU_CEIER_NHDIE_Msk | \
+                                        R_CEU_CEIER_NVDIE_Msk,
+                .ceu_ipl              = (8),
+                .ceu_irq              = VECTOR_NUMBER_CEU_CEUI,
+            };
+
+            const capture_cfg_t g_ceu_64X32_cfg =
+            {
+                .x_capture_pixels      = 64,
+                .y_capture_pixels      = 32,
+                .x_capture_start_pixel = 0,
+                .y_capture_start_pixel = 0,
+                .bytes_per_pixel       = 2,
+                .p_callback            = g_ceu_callback,
+                .p_context             = NULL,
+                .p_extend              = &g_ceu_64X32_extended_cfg,
+            };
+
+            const capture_instance_t g_ceu_64X32 =
+            {
+                .p_ctrl = &g_ceu_64X32_ctrl,
+                .p_cfg =  &g_ceu_64X32_cfg,
+                .p_api =  &g_ceu_on_capture,
+            };
+ceu_instance_ctrl_t g_ceu_320X320_ctrl;
+            const ceu_extended_cfg_t g_ceu_320X320_extended_cfg =
+            {
+                .capture_format       = CEU_CAPTURE_FORMAT_DATA_SYNCHRONOUS,
+                .data_bus_width       = CEU_DATA_BUS_SIZE_8_BIT,
+                .edge_info.dsel       = 0,
+                .edge_info.hdsel      = 0,
+                .edge_info.vdsel      = 0,
+                .hsync_polarity       = CEU_HSYNC_POLARITY_HIGH,
+                .vsync_polarity       = CEU_VSYNC_POLARITY_HIGH,
+                .byte_swapping        = {
+                                        .swap_8bit_units  = (0x1 | 0x2 | 0x4 |  0x0) >> 0x00 & 0x01,
+                                        .swap_16bit_units = (0x1 | 0x2 | 0x4 |  0x0) >> 0x01 & 0x01,
+                                        .swap_32bit_units = (0x1 | 0x2 | 0x4 |  0x0) >> 0x02 & 0x01,
+                                        },
+                .burst_mode           = CEU_BURST_TRANSFER_MODE_X8,
+                .image_area_size      = 320 * 320 * 2,
+                .interrupts_enabled   = 0 | \
+                                        R_CEU_CEIER_CPEIE_Msk | \
+                                        0 | \
+                                        R_CEU_CEIER_VDIE_Msk | \
+                                        R_CEU_CEIER_CDTOFIE_Msk | \
+                                        0 | \
+                                        0 | \
+                                        R_CEU_CEIER_VBPIE_Msk | \
+                                        R_CEU_CEIER_NHDIE_Msk | \
+                                        R_CEU_CEIER_NVDIE_Msk,
+                .ceu_ipl              = (8),
+                .ceu_irq              = VECTOR_NUMBER_CEU_CEUI,
+            };
+
+            const capture_cfg_t g_ceu_320X320_cfg =
+            {
+                .x_capture_pixels      = 320,
+                .y_capture_pixels      = 320,
+                .x_capture_start_pixel = 0,
+                .y_capture_start_pixel = 0,
+                .bytes_per_pixel       = 2,
+                .p_callback            = g_ceu_callback,
+                .p_context             = NULL,
+                .p_extend              = &g_ceu_320X320_extended_cfg,
+            };
+
+            const capture_instance_t g_ceu_320X320 =
+            {
+                .p_ctrl = &g_ceu_320X320_ctrl,
+                .p_cfg =  &g_ceu_320X320_cfg,
+                .p_api =  &g_ceu_on_capture,
+            };
+ceu_instance_ctrl_t g_ceu_160X160_ctrl;
+            const ceu_extended_cfg_t g_ceu_160X160_extended_cfg =
+            {
+                .capture_format       = CEU_CAPTURE_FORMAT_DATA_SYNCHRONOUS,
+                .data_bus_width       = CEU_DATA_BUS_SIZE_8_BIT,
+                .edge_info.dsel       = 0,
+                .edge_info.hdsel      = 0,
+                .edge_info.vdsel      = 0,
+                .hsync_polarity       = CEU_HSYNC_POLARITY_HIGH,
+                .vsync_polarity       = CEU_VSYNC_POLARITY_HIGH,
+                .byte_swapping        = {
+                                        .swap_8bit_units  = (0x1 | 0x2 | 0x4 |  0x0) >> 0x00 & 0x01,
+                                        .swap_16bit_units = (0x1 | 0x2 | 0x4 |  0x0) >> 0x01 & 0x01,
+                                        .swap_32bit_units = (0x1 | 0x2 | 0x4 |  0x0) >> 0x02 & 0x01,
+                                        },
+                .burst_mode           = CEU_BURST_TRANSFER_MODE_X8,
+                .image_area_size      = 160 * 160 * 2,
+                .interrupts_enabled   = 0 | \
+                                        R_CEU_CEIER_CPEIE_Msk | \
+                                        0 | \
+                                        R_CEU_CEIER_VDIE_Msk | \
+                                        R_CEU_CEIER_CDTOFIE_Msk | \
+                                        0 | \
+                                        0 | \
+                                        R_CEU_CEIER_VBPIE_Msk | \
+                                        R_CEU_CEIER_NHDIE_Msk | \
+                                        R_CEU_CEIER_NVDIE_Msk,
+                .ceu_ipl              = (8),
+                .ceu_irq              = VECTOR_NUMBER_CEU_CEUI,
+            };
+
+            const capture_cfg_t g_ceu_160X160_cfg =
+            {
+                .x_capture_pixels      = 160,
+                .y_capture_pixels      = 160,
+                .x_capture_start_pixel = 0,
+                .y_capture_start_pixel = 0,
+                .bytes_per_pixel       = 2,
+                .p_callback            = g_ceu_callback,
+                .p_context             = NULL,
+                .p_extend              = &g_ceu_160X160_extended_cfg,
+            };
+
+            const capture_instance_t g_ceu_160X160 =
+            {
+                .p_ctrl = &g_ceu_160X160_ctrl,
+                .p_cfg =  &g_ceu_160X160_cfg,
+                .p_api =  &g_ceu_on_capture,
+            };
+ceu_instance_ctrl_t g_ceu_128X128_ctrl;
+            const ceu_extended_cfg_t g_ceu_128X128_extended_cfg =
+            {
+                .capture_format       = CEU_CAPTURE_FORMAT_DATA_SYNCHRONOUS,
+                .data_bus_width       = CEU_DATA_BUS_SIZE_8_BIT,
+                .edge_info.dsel       = 0,
+                .edge_info.hdsel      = 0,
+                .edge_info.vdsel      = 0,
+                .hsync_polarity       = CEU_HSYNC_POLARITY_HIGH,
+                .vsync_polarity       = CEU_VSYNC_POLARITY_HIGH,
+                .byte_swapping        = {
+                                        .swap_8bit_units  = (0x1 | 0x2 | 0x4 |  0x0) >> 0x00 & 0x01,
+                                        .swap_16bit_units = (0x1 | 0x2 | 0x4 |  0x0) >> 0x01 & 0x01,
+                                        .swap_32bit_units = (0x1 | 0x2 | 0x4 |  0x0) >> 0x02 & 0x01,
+                                        },
+                .burst_mode           = CEU_BURST_TRANSFER_MODE_X8,
+                .image_area_size      = 128 * 128 * 2,
+                .interrupts_enabled   = 0 | \
+                                        R_CEU_CEIER_CPEIE_Msk | \
+                                        0 | \
+                                        R_CEU_CEIER_VDIE_Msk | \
+                                        R_CEU_CEIER_CDTOFIE_Msk | \
+                                        0 | \
+                                        0 | \
+                                        R_CEU_CEIER_VBPIE_Msk | \
+                                        R_CEU_CEIER_NHDIE_Msk | \
+                                        R_CEU_CEIER_NVDIE_Msk,
+                .ceu_ipl              = (8),
+                .ceu_irq              = VECTOR_NUMBER_CEU_CEUI,
+            };
+
+            const capture_cfg_t g_ceu_128X128_cfg =
+            {
+                .x_capture_pixels      = 128,
+                .y_capture_pixels      = 128,
+                .x_capture_start_pixel = 0,
+                .y_capture_start_pixel = 0,
+                .bytes_per_pixel       = 2,
+                .p_callback            = g_ceu_callback,
+                .p_context             = NULL,
+                .p_extend              = &g_ceu_128X128_extended_cfg,
+            };
+
+            const capture_instance_t g_ceu_128X128 =
+            {
+                .p_ctrl = &g_ceu_128X128_ctrl,
+                .p_cfg =  &g_ceu_128X128_cfg,
+                .p_api =  &g_ceu_on_capture,
+            };
+ceu_instance_ctrl_t g_ceu_128X64_ctrl;
+            const ceu_extended_cfg_t g_ceu_128X64_extended_cfg =
+            {
+                .capture_format       = CEU_CAPTURE_FORMAT_DATA_SYNCHRONOUS,
+                .data_bus_width       = CEU_DATA_BUS_SIZE_8_BIT,
+                .edge_info.dsel       = 0,
+                .edge_info.hdsel      = 0,
+                .edge_info.vdsel      = 0,
+                .hsync_polarity       = CEU_HSYNC_POLARITY_HIGH,
+                .vsync_polarity       = CEU_VSYNC_POLARITY_HIGH,
+                .byte_swapping        = {
+                                        .swap_8bit_units  = (0x1 | 0x2 | 0x4 |  0x0) >> 0x00 & 0x01,
+                                        .swap_16bit_units = (0x1 | 0x2 | 0x4 |  0x0) >> 0x01 & 0x01,
+                                        .swap_32bit_units = (0x1 | 0x2 | 0x4 |  0x0) >> 0x02 & 0x01,
+                                        },
+                .burst_mode           = CEU_BURST_TRANSFER_MODE_X8,
+                .image_area_size      = 128 * 64 * 2,
+                .interrupts_enabled   = 0 | \
+                                        R_CEU_CEIER_CPEIE_Msk | \
+                                        0 | \
+                                        R_CEU_CEIER_VDIE_Msk | \
+                                        R_CEU_CEIER_CDTOFIE_Msk | \
+                                        0 | \
+                                        0 | \
+                                        R_CEU_CEIER_VBPIE_Msk | \
+                                        R_CEU_CEIER_NHDIE_Msk | \
+                                        R_CEU_CEIER_NVDIE_Msk,
+                .ceu_ipl              = (8),
+                .ceu_irq              = VECTOR_NUMBER_CEU_CEUI,
+            };
+
+            const capture_cfg_t g_ceu_128X64_cfg =
+            {
+                .x_capture_pixels      = 128,
+                .y_capture_pixels      = 64,
+                .x_capture_start_pixel = 0,
+                .y_capture_start_pixel = 0,
+                .bytes_per_pixel       = 2,
+                .p_callback            = g_ceu_callback,
+                .p_context             = NULL,
+                .p_extend              = &g_ceu_128X64_extended_cfg,
+            };
+
+            const capture_instance_t g_ceu_128X64 =
+            {
+                .p_ctrl = &g_ceu_128X64_ctrl,
+                .p_cfg =  &g_ceu_128X64_cfg,
+                .p_api =  &g_ceu_on_capture,
+            };
+ceu_instance_ctrl_t g_ceu_64X64_ctrl;
+            const ceu_extended_cfg_t g_ceu_64X64_extended_cfg =
+            {
+                .capture_format       = CEU_CAPTURE_FORMAT_DATA_SYNCHRONOUS,
+                .data_bus_width       = CEU_DATA_BUS_SIZE_8_BIT,
+                .edge_info.dsel       = 0,
+                .edge_info.hdsel      = 0,
+                .edge_info.vdsel      = 0,
+                .hsync_polarity       = CEU_HSYNC_POLARITY_HIGH,
+                .vsync_polarity       = CEU_VSYNC_POLARITY_HIGH,
+                .byte_swapping        = {
+                                        .swap_8bit_units  = (0x1 | 0x2 | 0x4 |  0x0) >> 0x00 & 0x01,
+                                        .swap_16bit_units = (0x1 | 0x2 | 0x4 |  0x0) >> 0x01 & 0x01,
+                                        .swap_32bit_units = (0x1 | 0x2 | 0x4 |  0x0) >> 0x02 & 0x01,
+                                        },
+                .burst_mode           = CEU_BURST_TRANSFER_MODE_X8,
+                .image_area_size      = 64 * 64 * 2,
+                .interrupts_enabled   = 0 | \
+                                        R_CEU_CEIER_CPEIE_Msk | \
+                                        0 | \
+                                        R_CEU_CEIER_VDIE_Msk | \
+                                        R_CEU_CEIER_CDTOFIE_Msk | \
+                                        0 | \
+                                        0 | \
+                                        R_CEU_CEIER_VBPIE_Msk | \
+                                        R_CEU_CEIER_NHDIE_Msk | \
+                                        R_CEU_CEIER_NVDIE_Msk,
+                .ceu_ipl              = (8),
+                .ceu_irq              = VECTOR_NUMBER_CEU_CEUI,
+            };
+
+            const capture_cfg_t g_ceu_64X64_cfg =
+            {
+                .x_capture_pixels      = 64,
+                .y_capture_pixels      = 64,
+                .x_capture_start_pixel = 0,
+                .y_capture_start_pixel = 0,
+                .bytes_per_pixel       = 2,
+                .p_callback            = g_ceu_callback,
+                .p_context             = NULL,
+                .p_extend              = &g_ceu_64X64_extended_cfg,
+            };
+
+            const capture_instance_t g_ceu_64X64 =
+            {
+                .p_ctrl = &g_ceu_64X64_ctrl,
+                .p_cfg =  &g_ceu_64X64_cfg,
+                .p_api =  &g_ceu_on_capture,
+            };
 dtc_instance_ctrl_t g_transfer1_ctrl;
 
 #if (1 == 1)

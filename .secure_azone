@@ -95,7 +95,6 @@
             <slot name="P701" secure="true"/>
             <slot name="P702" secure="true"/>
             <slot name="P703" secure="true"/>
-            <slot name="P705" secure="true"/>
             <slot name="P707" secure="true"/>
             <slot name="P708" secure="true"/>
             <slot name="P709" secure="true"/>

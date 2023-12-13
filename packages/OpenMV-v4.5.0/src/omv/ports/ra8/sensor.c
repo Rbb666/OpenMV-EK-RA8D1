@@ -128,6 +128,21 @@ int sensor_set_framesize(framesize_t framesize)
     case FRAMESIZE_HQQVGA://120x80
         gp_ceu_instance = (capture_instance_t *)&g_ceu_hqqvga;
         break;
+    case FRAMESIZE_64X32://64X32
+        gp_ceu_instance = (capture_instance_t *)&g_ceu_64X32;
+        break;
+    case FRAMESIZE_64X64://64X64
+        gp_ceu_instance = (capture_instance_t *)&g_ceu_64X64;
+        break;
+    case FRAMESIZE_128X64://128X64
+        gp_ceu_instance = (capture_instance_t *)&g_ceu_128X64;
+        break;
+    case FRAMESIZE_128X128://128X128
+        gp_ceu_instance = (capture_instance_t *)&g_ceu_128X128;
+        break;
+    case FRAMESIZE_320X320://320X320
+        gp_ceu_instance = (capture_instance_t *)&g_ceu_320X320;
+        break;
     default:
         break;
     }

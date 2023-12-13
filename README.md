@@ -38,6 +38,24 @@ OpenMV 是由美国克里斯团队基于 MicroPython 发起的开源机器视觉
 * mipi屏幕（选配）
 * USB电缆x2
 
+以下是开发板的连接示意图：
+
+**摄像头部分示意图**：
+
+![](docs/picture/bd1.png)
+
+**USB部分示意图**：
+
+![](docs/picture/bd2.png)
+
+**拨码开关部分示意图**：需要将拨码开关拨置 00100010
+
+![](docs/picture/bd3.png)
+
+**拨码开关选通功能如下示意图**：
+
+![](docs/picture/bd4.png)
+
 ## 软件使用说明
 
 ### 软件环境
@@ -70,6 +88,7 @@ OpenMV 是由美国克里斯团队基于 MicroPython 发起的开源机器视觉
 
 - [ ] TFlite-Micro 支持
 - [ ] Machine 模块支持
+- [ ] 文件相关支持
 
 ## OpenMV 使用说明
 
@@ -77,8 +96,22 @@ OpenMV 是由美国克里斯团队基于 MicroPython 发起的开源机器视觉
 
 ### 环境准备
 
+请自行安装 OpenMV IDE：
+
 * [OpenMV IDE-4.0.14版本](https://github.com/openmv/openmv-ide/releases/download/v4.0.14/openmv-ide-windows-4.0.14.exe) 
 
-点击左下角的连接设备按钮，等待连接成功
+### 运行Hello World 程序
+
+1、点击左下角的连接设备按钮，等待连接成功
 
 ![](docs/picture/6.png)
+
+2、点击连接下面的运行按钮，即可运行编码区域的 Micropython 代码，下图是一些常用的功能区域说明：
+
+![](docs/picture/8.png)
+
+3、OpenMV IDE 还有很多示例，大家可以自行体验：
+
+![](docs/picture/9.png)
+
+**注：更多的示例以及教程可以详见 [OpenMV 文档中心](https://book.openmv.cc/)**

@@ -52,6 +52,7 @@ void fb_alloc_init0() {
     _fballoc = rt_memheap_alloc(&system_heap, OMV_FB_ALLOC_SIZE);
 	RT_ASSERT(_fballoc != NULL);
 	pointer = _fballoc;
+    memset(_fballoc, 0x0, OMV_FB_ALLOC_SIZE);
 	LOG_I("framebuffer alloc addr:(%p), size:[%d]", _fballoc, OMV_FB_ALLOC_SIZE);
 }
 

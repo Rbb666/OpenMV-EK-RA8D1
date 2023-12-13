@@ -902,6 +902,180 @@
       <property id="module.driver.drw.int_ipl" value="board.icu.common.irq.priority2"/>
     </module>
     <module id="module.driver.tes.dave2d.892521445"/>
+    <module id="module.driver.ceu_on_capture.626785273">
+      <property id="module.driver.ceu.name" value="g_ceu_64X64"/>
+      <property id="module.driver.ceu.capture_format" value="module.driver.ceu.capture_format.data_synchronous"/>
+      <property id="module.driver.ceu.bus_size" value="module.driver.ceu.bus_size.8_bit"/>
+      <property id="module.driver.ceu.hsync_polarity" value="module.driver.ceu.hsync_polarity.high"/>
+      <property id="module.driver.ceu.vsync_polarity" value="module.driver.ceu.vsync_polarity.high"/>
+      <property id="module.driver.ceu.byte_swapping" value="module.driver.ceu.swap_bits.8bit_units,module.driver.ceu.swap_bits.16bit_units,module.driver.ceu.swap_bits.32bit_units"/>
+      <property id="module.driver.ceu.burst_mode" value="module.driver.ceu.burst_mode.x8"/>
+      <property id="module.driver.ceu.p_callback" value="g_ceu_callback"/>
+      <property id="module.driver.ceu.p_context" value="NULL"/>
+      <property id="module.driver.ceu.ipl" value="board.icu.common.irq.priority8"/>
+      <property id="module.driver.ceu.interrupts_enabled.cpeie" value="module.driver.ceu.interrupts_enabled.cpeie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.hdie" value="module.driver.ceu.interrupts_enabled.hdie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.vdie" value="module.driver.ceu.interrupts_enabled.vdie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.cdtofie" value="module.driver.ceu.interrupts_enabled.cdtofie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.ighsie" value="module.driver.ceu.interrupts_enabled.ighsie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.igvsie" value="module.driver.ceu.interrupts_enabled.igvsie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.vbpie" value="module.driver.ceu.interrupts_enabled.vbpie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.nhdie" value="module.driver.ceu.interrupts_enabled.nhdie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.nvdie" value="module.driver.ceu.interrupts_enabled.nvdie.enabled"/>
+      <property id="module.driver.ceu.x_pixels" value="64"/>
+      <property id="module.driver.ceu.y_pixels" value="64"/>
+      <property id="module.driver.ceu.x_start_pixel" value="0"/>
+      <property id="module.driver.ceu.y_start_pixel" value="0"/>
+      <property id="module.driver.ceu.dsel" value="module.driver.ceu.dsel.rising"/>
+      <property id="module.driver.ceu.hdsel" value="module.driver.ceu.hdsel.rising"/>
+      <property id="module.driver.ceu.vdsel" value="module.driver.ceu.vdsel.rising"/>
+      <property id="module.driver.ceu.image_buffer_size" value="0"/>
+    </module>
+    <module id="module.driver.ceu_on_capture.19664713">
+      <property id="module.driver.ceu.name" value="g_ceu_128X64"/>
+      <property id="module.driver.ceu.capture_format" value="module.driver.ceu.capture_format.data_synchronous"/>
+      <property id="module.driver.ceu.bus_size" value="module.driver.ceu.bus_size.8_bit"/>
+      <property id="module.driver.ceu.hsync_polarity" value="module.driver.ceu.hsync_polarity.high"/>
+      <property id="module.driver.ceu.vsync_polarity" value="module.driver.ceu.vsync_polarity.high"/>
+      <property id="module.driver.ceu.byte_swapping" value="module.driver.ceu.swap_bits.8bit_units,module.driver.ceu.swap_bits.16bit_units,module.driver.ceu.swap_bits.32bit_units"/>
+      <property id="module.driver.ceu.burst_mode" value="module.driver.ceu.burst_mode.x8"/>
+      <property id="module.driver.ceu.p_callback" value="g_ceu_callback"/>
+      <property id="module.driver.ceu.p_context" value="NULL"/>
+      <property id="module.driver.ceu.ipl" value="board.icu.common.irq.priority8"/>
+      <property id="module.driver.ceu.interrupts_enabled.cpeie" value="module.driver.ceu.interrupts_enabled.cpeie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.hdie" value="module.driver.ceu.interrupts_enabled.hdie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.vdie" value="module.driver.ceu.interrupts_enabled.vdie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.cdtofie" value="module.driver.ceu.interrupts_enabled.cdtofie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.ighsie" value="module.driver.ceu.interrupts_enabled.ighsie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.igvsie" value="module.driver.ceu.interrupts_enabled.igvsie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.vbpie" value="module.driver.ceu.interrupts_enabled.vbpie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.nhdie" value="module.driver.ceu.interrupts_enabled.nhdie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.nvdie" value="module.driver.ceu.interrupts_enabled.nvdie.enabled"/>
+      <property id="module.driver.ceu.x_pixels" value="128"/>
+      <property id="module.driver.ceu.y_pixels" value="64"/>
+      <property id="module.driver.ceu.x_start_pixel" value="0"/>
+      <property id="module.driver.ceu.y_start_pixel" value="0"/>
+      <property id="module.driver.ceu.dsel" value="module.driver.ceu.dsel.rising"/>
+      <property id="module.driver.ceu.hdsel" value="module.driver.ceu.hdsel.rising"/>
+      <property id="module.driver.ceu.vdsel" value="module.driver.ceu.vdsel.rising"/>
+      <property id="module.driver.ceu.image_buffer_size" value="0"/>
+    </module>
+    <module id="module.driver.ceu_on_capture.833601049">
+      <property id="module.driver.ceu.name" value="g_ceu_128X128"/>
+      <property id="module.driver.ceu.capture_format" value="module.driver.ceu.capture_format.data_synchronous"/>
+      <property id="module.driver.ceu.bus_size" value="module.driver.ceu.bus_size.8_bit"/>
+      <property id="module.driver.ceu.hsync_polarity" value="module.driver.ceu.hsync_polarity.high"/>
+      <property id="module.driver.ceu.vsync_polarity" value="module.driver.ceu.vsync_polarity.high"/>
+      <property id="module.driver.ceu.byte_swapping" value="module.driver.ceu.swap_bits.8bit_units,module.driver.ceu.swap_bits.16bit_units,module.driver.ceu.swap_bits.32bit_units"/>
+      <property id="module.driver.ceu.burst_mode" value="module.driver.ceu.burst_mode.x8"/>
+      <property id="module.driver.ceu.p_callback" value="g_ceu_callback"/>
+      <property id="module.driver.ceu.p_context" value="NULL"/>
+      <property id="module.driver.ceu.ipl" value="board.icu.common.irq.priority8"/>
+      <property id="module.driver.ceu.interrupts_enabled.cpeie" value="module.driver.ceu.interrupts_enabled.cpeie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.hdie" value="module.driver.ceu.interrupts_enabled.hdie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.vdie" value="module.driver.ceu.interrupts_enabled.vdie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.cdtofie" value="module.driver.ceu.interrupts_enabled.cdtofie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.ighsie" value="module.driver.ceu.interrupts_enabled.ighsie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.igvsie" value="module.driver.ceu.interrupts_enabled.igvsie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.vbpie" value="module.driver.ceu.interrupts_enabled.vbpie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.nhdie" value="module.driver.ceu.interrupts_enabled.nhdie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.nvdie" value="module.driver.ceu.interrupts_enabled.nvdie.enabled"/>
+      <property id="module.driver.ceu.x_pixels" value="128"/>
+      <property id="module.driver.ceu.y_pixels" value="128"/>
+      <property id="module.driver.ceu.x_start_pixel" value="0"/>
+      <property id="module.driver.ceu.y_start_pixel" value="0"/>
+      <property id="module.driver.ceu.dsel" value="module.driver.ceu.dsel.rising"/>
+      <property id="module.driver.ceu.hdsel" value="module.driver.ceu.hdsel.rising"/>
+      <property id="module.driver.ceu.vdsel" value="module.driver.ceu.vdsel.rising"/>
+      <property id="module.driver.ceu.image_buffer_size" value="0"/>
+    </module>
+    <module id="module.driver.ceu_on_capture.2027620076">
+      <property id="module.driver.ceu.name" value="g_ceu_160X160"/>
+      <property id="module.driver.ceu.capture_format" value="module.driver.ceu.capture_format.data_synchronous"/>
+      <property id="module.driver.ceu.bus_size" value="module.driver.ceu.bus_size.8_bit"/>
+      <property id="module.driver.ceu.hsync_polarity" value="module.driver.ceu.hsync_polarity.high"/>
+      <property id="module.driver.ceu.vsync_polarity" value="module.driver.ceu.vsync_polarity.high"/>
+      <property id="module.driver.ceu.byte_swapping" value="module.driver.ceu.swap_bits.8bit_units,module.driver.ceu.swap_bits.16bit_units,module.driver.ceu.swap_bits.32bit_units"/>
+      <property id="module.driver.ceu.burst_mode" value="module.driver.ceu.burst_mode.x8"/>
+      <property id="module.driver.ceu.p_callback" value="g_ceu_callback"/>
+      <property id="module.driver.ceu.p_context" value="NULL"/>
+      <property id="module.driver.ceu.ipl" value="board.icu.common.irq.priority8"/>
+      <property id="module.driver.ceu.interrupts_enabled.cpeie" value="module.driver.ceu.interrupts_enabled.cpeie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.hdie" value="module.driver.ceu.interrupts_enabled.hdie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.vdie" value="module.driver.ceu.interrupts_enabled.vdie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.cdtofie" value="module.driver.ceu.interrupts_enabled.cdtofie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.ighsie" value="module.driver.ceu.interrupts_enabled.ighsie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.igvsie" value="module.driver.ceu.interrupts_enabled.igvsie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.vbpie" value="module.driver.ceu.interrupts_enabled.vbpie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.nhdie" value="module.driver.ceu.interrupts_enabled.nhdie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.nvdie" value="module.driver.ceu.interrupts_enabled.nvdie.enabled"/>
+      <property id="module.driver.ceu.x_pixels" value="160"/>
+      <property id="module.driver.ceu.y_pixels" value="160"/>
+      <property id="module.driver.ceu.x_start_pixel" value="0"/>
+      <property id="module.driver.ceu.y_start_pixel" value="0"/>
+      <property id="module.driver.ceu.dsel" value="module.driver.ceu.dsel.rising"/>
+      <property id="module.driver.ceu.hdsel" value="module.driver.ceu.hdsel.rising"/>
+      <property id="module.driver.ceu.vdsel" value="module.driver.ceu.vdsel.rising"/>
+      <property id="module.driver.ceu.image_buffer_size" value="0"/>
+    </module>
+    <module id="module.driver.ceu_on_capture.1741188754">
+      <property id="module.driver.ceu.name" value="g_ceu_320X320"/>
+      <property id="module.driver.ceu.capture_format" value="module.driver.ceu.capture_format.data_synchronous"/>
+      <property id="module.driver.ceu.bus_size" value="module.driver.ceu.bus_size.8_bit"/>
+      <property id="module.driver.ceu.hsync_polarity" value="module.driver.ceu.hsync_polarity.high"/>
+      <property id="module.driver.ceu.vsync_polarity" value="module.driver.ceu.vsync_polarity.high"/>
+      <property id="module.driver.ceu.byte_swapping" value="module.driver.ceu.swap_bits.8bit_units,module.driver.ceu.swap_bits.16bit_units,module.driver.ceu.swap_bits.32bit_units"/>
+      <property id="module.driver.ceu.burst_mode" value="module.driver.ceu.burst_mode.x8"/>
+      <property id="module.driver.ceu.p_callback" value="g_ceu_callback"/>
+      <property id="module.driver.ceu.p_context" value="NULL"/>
+      <property id="module.driver.ceu.ipl" value="board.icu.common.irq.priority8"/>
+      <property id="module.driver.ceu.interrupts_enabled.cpeie" value="module.driver.ceu.interrupts_enabled.cpeie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.hdie" value="module.driver.ceu.interrupts_enabled.hdie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.vdie" value="module.driver.ceu.interrupts_enabled.vdie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.cdtofie" value="module.driver.ceu.interrupts_enabled.cdtofie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.ighsie" value="module.driver.ceu.interrupts_enabled.ighsie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.igvsie" value="module.driver.ceu.interrupts_enabled.igvsie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.vbpie" value="module.driver.ceu.interrupts_enabled.vbpie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.nhdie" value="module.driver.ceu.interrupts_enabled.nhdie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.nvdie" value="module.driver.ceu.interrupts_enabled.nvdie.enabled"/>
+      <property id="module.driver.ceu.x_pixels" value="320"/>
+      <property id="module.driver.ceu.y_pixels" value="320"/>
+      <property id="module.driver.ceu.x_start_pixel" value="0"/>
+      <property id="module.driver.ceu.y_start_pixel" value="0"/>
+      <property id="module.driver.ceu.dsel" value="module.driver.ceu.dsel.rising"/>
+      <property id="module.driver.ceu.hdsel" value="module.driver.ceu.hdsel.rising"/>
+      <property id="module.driver.ceu.vdsel" value="module.driver.ceu.vdsel.rising"/>
+      <property id="module.driver.ceu.image_buffer_size" value="0"/>
+    </module>
+    <module id="module.driver.ceu_on_capture.219909159">
+      <property id="module.driver.ceu.name" value="g_ceu_64X32"/>
+      <property id="module.driver.ceu.capture_format" value="module.driver.ceu.capture_format.data_synchronous"/>
+      <property id="module.driver.ceu.bus_size" value="module.driver.ceu.bus_size.8_bit"/>
+      <property id="module.driver.ceu.hsync_polarity" value="module.driver.ceu.hsync_polarity.high"/>
+      <property id="module.driver.ceu.vsync_polarity" value="module.driver.ceu.vsync_polarity.high"/>
+      <property id="module.driver.ceu.byte_swapping" value="module.driver.ceu.swap_bits.8bit_units,module.driver.ceu.swap_bits.16bit_units,module.driver.ceu.swap_bits.32bit_units"/>
+      <property id="module.driver.ceu.burst_mode" value="module.driver.ceu.burst_mode.x8"/>
+      <property id="module.driver.ceu.p_callback" value="g_ceu_callback"/>
+      <property id="module.driver.ceu.p_context" value="NULL"/>
+      <property id="module.driver.ceu.ipl" value="board.icu.common.irq.priority8"/>
+      <property id="module.driver.ceu.interrupts_enabled.cpeie" value="module.driver.ceu.interrupts_enabled.cpeie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.hdie" value="module.driver.ceu.interrupts_enabled.hdie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.vdie" value="module.driver.ceu.interrupts_enabled.vdie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.cdtofie" value="module.driver.ceu.interrupts_enabled.cdtofie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.ighsie" value="module.driver.ceu.interrupts_enabled.ighsie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.igvsie" value="module.driver.ceu.interrupts_enabled.igvsie.disabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.vbpie" value="module.driver.ceu.interrupts_enabled.vbpie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.nhdie" value="module.driver.ceu.interrupts_enabled.nhdie.enabled"/>
+      <property id="module.driver.ceu.interrupts_enabled.nvdie" value="module.driver.ceu.interrupts_enabled.nvdie.enabled"/>
+      <property id="module.driver.ceu.x_pixels" value="64"/>
+      <property id="module.driver.ceu.y_pixels" value="32"/>
+      <property id="module.driver.ceu.x_start_pixel" value="0"/>
+      <property id="module.driver.ceu.y_start_pixel" value="0"/>
+      <property id="module.driver.ceu.dsel" value="module.driver.ceu.dsel.rising"/>
+      <property id="module.driver.ceu.hdsel" value="module.driver.ceu.hdsel.rising"/>
+      <property id="module.driver.ceu.vdsel" value="module.driver.ceu.vdsel.rising"/>
+      <property id="module.driver.ceu.image_buffer_size" value="0"/>
+    </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.driver.uart_on_sci_b_uart.1514241209"/>
@@ -927,6 +1101,12 @@
       <stack module="module.driver.drw.942415297">
         <stack module="module.driver.tes.dave2d.892521445" requires="module.driver.drw.requires.dave2d_driver"/>
       </stack>
+      <stack module="module.driver.ceu_on_capture.626785273"/>
+      <stack module="module.driver.ceu_on_capture.19664713"/>
+      <stack module="module.driver.ceu_on_capture.833601049"/>
+      <stack module="module.driver.ceu_on_capture.2027620076"/>
+      <stack module="module.driver.ceu_on_capture.1741188754"/>
+      <stack module="module.driver.ceu_on_capture.219909159"/>
     </context>
     <config id="config.driver.flash_hp">
       <property id="config.driver.flash_hp.param_checking_enable" value="config.flash_hp.param_checking_enable.bsp"/>
@@ -1067,8 +1247,6 @@
     <symbolicName propertyId="p702.symbolic_name" value="ETH_B_RXD0"/>
     <symbolicName propertyId="p703.symbolic_name" value="ETH_B_RXD1"/>
     <symbolicName propertyId="p704.symbolic_name" value="ETH_B_RXER"/>
-    <symbolicName propertyId="p705.symbolic_name" value="CAM_PWRDOWN"/>
-    <symbolicName propertyId="p706.symbolic_name" value="ETH_B_RST_CAM_D10"/>
     <symbolicName propertyId="p707.symbolic_name" value="LCD_DATA23"/>
     <symbolicName propertyId="p708.symbolic_name" value="CAM_CLK"/>
     <symbolicName propertyId="p709.symbolic_name" value="CAM_HD"/>
@@ -1407,8 +1585,6 @@
       <configSetting altId="p702.gpio_mode.gpio_mode_peripheral" configurationId="p702.gpio_mode"/>
       <configSetting altId="p703.ceu.vio_d7" configurationId="p703"/>
       <configSetting altId="p703.gpio_mode.gpio_mode_peripheral" configurationId="p703.gpio_mode"/>
-      <configSetting altId="p705.output.low" configurationId="p705"/>
-      <configSetting altId="p705.gpio_mode.gpio_mode_out.low" configurationId="p705.gpio_mode"/>
       <configSetting altId="p707.usbhs.usbhs_ovrcura_a_dash_ds" configurationId="p707"/>
       <configSetting altId="p707.gpio_mode.gpio_mode_peripheral" configurationId="p707.gpio_mode"/>
       <configSetting altId="p708.ceu.vio_clk" configurationId="p708"/>

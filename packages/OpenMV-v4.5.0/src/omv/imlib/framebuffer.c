@@ -80,8 +80,11 @@ void framebuffer_init0(void)
 
 	RT_ASSERT(jpeg_framebuffer != NULL);
     RT_ASSERT(framebuffer != NULL);
+    
+    memset(framebuffer, 0x0, OMV_FB_SIZE);
+    memset(jpeg_framebuffer, 0x0, OMV_JPEG_BUF_SIZE);
 
-    LOG_D("framebuffer addr:(%p), size:[%d]", framebuffer, OMV_FB_SIZE);
+    LOG_I("framebuffer addr:(%p), size:[%d]", framebuffer, OMV_FB_SIZE);
     LOG_I("jpeg framebuffer addr:(%p), size:[%d]", jpeg_framebuffer, OMV_JPEG_BUF_SIZE);
 
     // Save fb_enabled flag state

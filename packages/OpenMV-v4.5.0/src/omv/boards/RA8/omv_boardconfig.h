@@ -30,12 +30,12 @@
 
 // Sensor external clock timer frequency.
 // TODO Not actually used right now, frequency is hardcoded.
-#define OMV_XCLK_FREQUENCY      (12000000)
+#define OMV_XCLK_FREQUENCY      (24000000)
 
 // Sensor IIC Bus
 #define OMV_CAM_BUS_NAME        SENSOR_BUS_NAME
-#define OMV_CAM_BUS_SCL_PIN     0x050C
-#define OMV_CAM_BUS_SDA_PIN     0x050B
+#define OMV_CAM_BUS_SCL_PIN     BSP_I2C1_SCL_PIN
+#define OMV_CAM_BUS_SDA_PIN     BSP_I2C1_SDA_PIN
 
 // Sensor PLL register value.
 #define OMV_OV7725_PLL_CONFIG   (0x41)  // x4
@@ -113,7 +113,7 @@
 // AUDIO config.
 
 // DCMI config.
-//#define DCMI_POWER_PIN           (DCMI_POWER_PIN_NUM)
+#define DCMI_POWER_PIN           (DCMI_POWER_PIN_NUM)
 #define DCMI_RESET_PIN           (DCMI_RESET_PIN_NUM)
 
 #endif //__OMV_BOARDCONFIG_H__
