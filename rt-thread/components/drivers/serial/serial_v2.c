@@ -1144,7 +1144,11 @@ static rt_err_t rt_serial_control(struct rt_device *dev,
                 }
                 /* set serial configure */
                 serial->config = *pconfig;
-                serial->ops->configure(serial, (struct serial_configure *) args);
+                if (serial->parent.ref_count)
+                {
+                    /* serial device has been opened, to configure it */
+                    serial->ops->configure(serial, (struct serial_configure *) args);
+                }
             }
             break;
         case RT_DEVICE_CTRL_NOTIFY_SET:

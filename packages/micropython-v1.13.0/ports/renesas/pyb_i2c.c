@@ -201,17 +201,16 @@ STATIC mp_obj_t pyb_i2c_make_new(const mp_obj_type_t *type, size_t n_args, size_
     return (mp_obj_t) self;
 }
 
-STATIC mp_obj_t pyb_i2c_init_(size_t n_args, const mp_obj_t *args, mp_map_t *kw_args)
+STATIC mp_obj_t pyb_i2c_init(size_t n_args, const mp_obj_t *args, mp_map_t *kw_args)
 {
     return mp_const_none;
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_KW(pyb_i2c_init_obj, 1, pyb_i2c_init_);
+STATIC MP_DEFINE_CONST_FUN_OBJ_KW(pyb_i2c_init_obj, 1, pyb_i2c_init);
 
 /// \method deinit()
 /// Turn off the I2C bus.
 STATIC mp_obj_t pyb_i2c_deinit(mp_obj_t self_in)
 {
-
     return mp_const_none;
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(pyb_i2c_deinit_obj, pyb_i2c_deinit);
@@ -244,14 +243,17 @@ STATIC mp_obj_t pyb_i2c_scan(mp_obj_t self_in)
     mp_obj_base_t *self = MP_OBJ_TO_PTR(self_in);
     mp_obj_t list = mp_obj_new_list(0, NULL);
     // 7-bit addresses 0b0000xxx and 0b1111xxx are reserved
+    mp_printf(&mp_plat_print, "i2c scan addr:[");
     for (int addr = 0x08; addr < 0x78; ++addr)
     {
         int ret = mp_machine_i2c_writeto(self, addr, NULL, 0, true);
         if (ret > 0)
         {
             mp_obj_list_append(list, MP_OBJ_NEW_SMALL_INT(addr));
+            mp_printf(&mp_plat_print, "%d ", addr);
         }
     }
+    mp_printf(&mp_plat_print, "]\r\n");
     return list;
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(pyb_i2c_scan_obj, pyb_i2c_scan);
