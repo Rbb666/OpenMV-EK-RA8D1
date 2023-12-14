@@ -115,3 +115,39 @@ OpenMV 是由美国克里斯团队基于 MicroPython 发起的开源机器视觉
 ![](docs/picture/9.png)
 
 **注：更多的示例以及教程可以详见 [OpenMV 文档中心](https://book.openmv.cc/)**
+
+---
+
+### OpenMV Uart 示例
+
+说明：使用的是EK-RA8D1的Uart3外设，其对应引脚为：RX-P408|TX-P409，使用如下代码进行测试。
+
+```python
+import time
+from pyb import UART
+
+# Always pass UART 3 for the UART number for your OpenMV Cam.
+# The second argument is the UART baud rate. For a more advanced UART control
+# example see the BLE-Shield driver.
+uart = UART(3, 19200)
+
+while True:
+    uart.write("Hello World!\r")
+    time.sleep_ms(1000)
+```
+
+可以使用USB-TTL模块查看控制台（波特率：19200）打印的内容
+
+### OpenMV IIC 示例
+
+说明：I2C第一个参数为I2C的总线，这里请填写1（即IIC1总线）
+
+```python
+from pyb import I2C
+
+i2c = I2C(1, I2C.MASTER)
+i2c.scan()
+```
+
+运行后，终端会显示：i2c scan addr:[20 33]，这里的 address 需要根据实际开发板外挂的从机 address 决定。
+
