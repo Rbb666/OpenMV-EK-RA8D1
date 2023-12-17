@@ -179,6 +179,12 @@
 /* CYW43012 WiFi */
 
 
+/* BL808 WiFi */
+
+
+/* CYW43439 WiFi */
+
+
 /* IoT Cloud */
 
 
@@ -374,6 +380,9 @@
 #define BSP_USING_FS
 #define BSP_USING_SPICARD_FS
 #define BSP_USING_LCD
+#define BSP_USING_MIPI_LCD
+#define BSP_USING_SDRAM
+#define BSP_USING_SDRAM_SIZE 0x8000000
 #define BSP_USING_OPENMV
 
 /* OpenMV Buffer Size Configure */

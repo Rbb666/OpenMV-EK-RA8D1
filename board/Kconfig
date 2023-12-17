@@ -530,11 +530,19 @@ menu "Hardware Drivers Config"
                     bool "Enable CAN0"
                     default n
             endif
-
-        config BSP_USING_LCD
+        
+        menuconfig BSP_USING_LCD
             bool "Enable LCD"
-            select BSP_USING_GPIO
             default n
+            select BSP_USING_GPIO
+            if BSP_USING_LCD
+                config BSP_USING_RGB565_LCD
+                    bool "Enable RGB565 LCD"
+                    default n
+                config BSP_USING_MIPI_LCD
+                    bool "Enable MIPI LCD"
+                    default n
+            endif
 
         config BSP_USING_SPI_LCD
             bool "Enable SPI LCD"
@@ -547,9 +555,13 @@ menu "Hardware Drivers Config"
             bool "Enable G2D"
             default n
 
-        config BSP_USING_JPEG
-            bool "Enable JPEG"
-            default n
+        menuconfig BSP_USING_SDRAM
+            bool "Enable SDRAM"
+            if BSP_USING_SDRAM
+                config BSP_USING_SDRAM_SIZE
+                    hex "(HEX)SDRAM SIZE"
+                    default 0x8000000
+            endif
 
         config BSP_USING_ETH
             bool "Enable Ethernet"
@@ -592,87 +604,87 @@ menu "Hardware Drivers Config"
                     endchoice
                 endif
     endmenu
-
-    menuconfig BSP_USING_OPENMV
-        bool "Enable OpenMV for RT-Thread"
-        default y
-        if BSP_USING_OPENMV
-            menu "OpenMV Buffer Size Configure"
-                config OPENMV_FB_SIZE
-                    int "OpenMV frambuffer size"
-                    range 0 8388608
-                    default 1048576
-                config OPENMV_FB_ALLOC_SIZE
-                    int "OpenMV frambuffer alloc size"
-                    range 0 8388608
-                    default 102400
-                config OPENMV_JPEG_BUF_SIZE
-                    int "OpenMV jpeg buffer size"
-                    range 0 8388608
-                    default 1048576
-                config OPENMV_HEAP_SIZE
-                    int "OpenMV heap size"
-                    range 0 8388608
-                    default 233472
-                config OPENMV_LINE_BUF_SIZE
-                    int "OpenMV line buffer size"
-                    range 0 8388608
-                    default 10240
-            endmenu
-
-            menu "Camera Pins Configure"
-                config DCMI_RESET_PIN_NUM
-                    hex "(HEX)RESET pin index"
-                    default 0x0705F
-                config DCMI_POWER_PIN_NUM
-                    hex "(HEX)POWER pin index"
-                    default 0x0706F
-            endmenu
-
-            menu "OpenMV Extra Peripheral Configure"
-                config OPENMV_USING_LCD
-                    bool "Enable LCD For OpenMV"
-                    select BSP_USING_LCD
-                    default y
-            endmenu
-
-            config SENSOR_USING_CAM_XCLK
-                bool "Use pwm to provide xclk pin signal"
-                # select RT_USING_PWM
-                default n
-
-            config SENSOR_BUS_NAME
-                string "Sensor I2C Bus Name"
-                depends on BSP_USING_I2C
-                default "i2c1"
-                
-            config SENSOR_MT9V034
-                int "Sensor support MT9V034"
-                range 0 1
-                default 1
-            config SENSOR_OV2640
-                int "Sensor support OV2640"
-                range 0 1
-                default 1
-            config SENSOR_OV5640
-                int "Sensor support OV5640"
-                range 0 1
-                default 1
-            config SENSOR_OV7725
-                int "Sensor support OV7725"
-                range 0 1
-                default 1
-            config SENSOR_OV7670
-                int "Sensor support OV7670"
-                range 0 1
-                default 1
-            config SENSOR_OV7690
-                int "Sensor support OV7690"
-                range 0 1
-                default 0
-            config SENSOR_OV9650
-                int "Sensor support OV9650"
-                range 0 1
-                default 0
-        endif
 endmenu
+
+menuconfig BSP_USING_OPENMV
+    bool "Enable OpenMV for RT-Thread"
+    default y
+    if BSP_USING_OPENMV
+        menu "OpenMV Buffer Size Configure"
+            config OPENMV_FB_SIZE
+                int "OpenMV frambuffer size"
+                range 0 8388608
+                default 1048576
+            config OPENMV_FB_ALLOC_SIZE
+                int "OpenMV frambuffer alloc size"
+                range 0 8388608
+                default 102400
+            config OPENMV_JPEG_BUF_SIZE
+                int "OpenMV jpeg buffer size"
+                range 0 8388608
+                default 1048576
+            config OPENMV_HEAP_SIZE
+                int "OpenMV heap size"
+                range 0 8388608
+                default 233472
+            config OPENMV_LINE_BUF_SIZE
+                int "OpenMV line buffer size"
+                range 0 8388608
+                default 10240
+        endmenu
+
+        menu "Camera Pins Configure"
+            config DCMI_RESET_PIN_NUM
+                hex "(HEX)RESET pin index"
+                default 0x0705F
+            config DCMI_POWER_PIN_NUM
+                hex "(HEX)POWER pin index"
+                default 0x0706F
+        endmenu
+
+        menu "OpenMV Extra Peripheral Configure"
+            config OPENMV_USING_LCD
+                bool "Enable LCD For OpenMV"
+                select BSP_USING_LCD
+                default y
+        endmenu
+
+        config SENSOR_USING_CAM_XCLK
+            bool "Use pwm to provide xclk pin signal"
+            # select RT_USING_PWM
+            default n
+
+        config SENSOR_BUS_NAME
+            string "Sensor I2C Bus Name"
+            depends on BSP_USING_I2C
+            default "i2c1"
+            
+        config SENSOR_MT9V034
+            int "Sensor support MT9V034"
+            range 0 1
+            default 1
+        config SENSOR_OV2640
+            int "Sensor support OV2640"
+            range 0 1
+            default 1
+        config SENSOR_OV5640
+            int "Sensor support OV5640"
+            range 0 1
+            default 1
+        config SENSOR_OV7725
+            int "Sensor support OV7725"
+            range 0 1
+            default 1
+        config SENSOR_OV7670
+            int "Sensor support OV7670"
+            range 0 1
+            default 1
+        config SENSOR_OV7690
+            int "Sensor support OV7690"
+            range 0 1
+            default 0
+        config SENSOR_OV9650
+            int "Sensor support OV9650"
+            range 0 1
+            default 0
+    endif

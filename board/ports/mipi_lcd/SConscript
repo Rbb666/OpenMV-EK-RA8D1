@@ -8,6 +8,6 @@ CPPPATH = [cwd]
 
 src = Glob('*.c')
 
-objs = DefineGroup('Drivers', src, depend = [''], CPPPATH = CPPPATH)
+objs = DefineGroup('Drivers', src, depend = ['BSP_USING_MIPI_LCD'], CPPPATH = CPPPATH)
 
 Return('objs')
