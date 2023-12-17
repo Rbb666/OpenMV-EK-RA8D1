@@ -96,7 +96,6 @@ void sci_spi##n##_callback(spi_callback_args_t *p_args) \
     rt_interrupt_enter(); \
     if (SPI_EVENT_TRANSFER_COMPLETE == p_args->event) \
     { \
-        CleanSPIDCache();   \
         rt_event_send(&complete_event, RA_SCI_SPI##n##_EVENT); \
     } \
     rt_interrupt_leave(); \
@@ -119,13 +118,6 @@ SCI_SPIx_CALLBACK(9);
     RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR, \
     rt_tick_from_millisecond(1000), \
     &recved);
-
-static void CleanSPIDCache(void)
-{
-#ifdef __DCACHE_PRESENT
-    SCB_CleanDCache();
-#endif
-}
 
 static rt_err_t ra_wait_complete(rt_event_t event, const char bus_name[RT_NAME_MAX])
 {
@@ -240,10 +232,6 @@ static rt_err_t ra_write_read_message(struct rt_spi_device *device, struct rt_sp
     struct ra_sci_spi *spi_dev =  rt_container_of(device->bus, struct ra_sci_spi, bus);
 
     spi_bit_width_t bit_width = ra_width_shift(spi_dev->rt_spi_cfg_t->data_width);
-
-#ifdef __DCACHE_PRESENT
-    SCB_CleanDCache_by_Addr((uint32_t *) message->send_buf,  message->length);
-#endif
     /**< write and receive message */
     err = R_SCI_SPI_WriteRead((spi_ctrl_t *)spi_dev->ra_spi_handle_t->spi_ctrl_t, message->send_buf, message->recv_buf, message->length, bit_width);
     if (RT_EOK != err)
@@ -327,16 +315,28 @@ static rt_ssize_t ra_spixfer(struct rt_spi_device *device, struct rt_spi_message
         {
             /**< receive message */
             err = ra_read_message(device, (void *)message->recv_buf, (const rt_size_t)message->length);
-        }
+#ifdef __DCACHE_PRESENT
+			SCB_InvalidateDCache_by_Addr((uint32_t *) message->recv_buf,  message->length);
+#endif        
+		}
         else if (message->send_buf != RT_NULL && message->recv_buf == RT_NULL)
         {
+#ifdef __DCACHE_PRESENT
+			SCB_CleanDCache_by_Addr((uint32_t *) message->send_buf,  message->length);
+#endif
             /**< send message */
             err = ra_write_message(device, (const void *)message->send_buf, (const rt_size_t)message->length);
         }
         else if (message->send_buf != RT_NULL && message->recv_buf != RT_NULL)
         {
+#ifdef __DCACHE_PRESENT
+			SCB_CleanInvalidateDCache();
+#endif
             /**< send and receive message */
             err =  ra_write_read_message(device, message);
+#ifdef __DCACHE_PRESENT
+			SCB_CleanInvalidateDCache();
+#endif
         }
     }
 
