@@ -176,15 +176,6 @@
 /* Wiced WiFi */
 
 
-/* CYW43012 WiFi */
-
-
-/* BL808 WiFi */
-
-
-/* CYW43439 WiFi */
-
-
 /* IoT Cloud */
 
 
@@ -379,6 +370,8 @@
 #define BSP_I2C1_SDA_PIN 0x050B
 #define BSP_USING_FS
 #define BSP_USING_SPICARD_FS
+#define BSP_USING_PWM
+#define BSP_USING_PWM6
 #define BSP_USING_LCD
 #define BSP_USING_MIPI_LCD
 #define BSP_USING_SDRAM

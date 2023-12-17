@@ -127,6 +127,10 @@ extern "C"
 #ifdef SOC_SERIES_R7FA8M85
 #include "ra8/uart_config.h"
 
+#ifdef BSP_USING_PWM
+#include "ra8/pwm_config.h"
+#endif
+
 #endif /* SOC_SERIES_R7FA8M85 */
 
 #ifdef __cplusplus

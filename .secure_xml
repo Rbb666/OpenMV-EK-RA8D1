@@ -140,6 +140,7 @@
       <configSetting altId="glcd.lcd_tcon2.p513" configurationId="glcd.lcd_tcon2"/>
       <configSetting altId="glcd.lcd_tcon3.p515" configurationId="glcd.lcd_tcon3"/>
       <configSetting altId="gpt3.gtioc3a.p403" configurationId="gpt3.gtioc3a" isUsedByDriver="true"/>
+      <configSetting altId="gpt6.gtioc6b.p600" configurationId="gpt6.gtioc6b" isUsedByDriver="true"/>
       <configSetting altId="irq12.irq12_dash_ds.p008" configurationId="irq12.irq12_dash_ds"/>
       <configSetting altId="irq13.irq13_dash_ds.p009" configurationId="irq13.irq13_dash_ds"/>
       <configSetting altId="jtag_fslash_swd.tck.p211" configurationId="jtag_fslash_swd.tck"/>
@@ -164,7 +165,6 @@
       <configSetting altId="p504.input" configurationId="p504"/>
       <configSetting altId="p505.input" configurationId="p505"/>
       <configSetting altId="p506.input" configurationId="p506"/>
-      <configSetting altId="p600.output.low" configurationId="p600"/>
       <configSetting altId="p809.output.low" configurationId="p809"/>
       <configSetting altId="pa06.input" configurationId="pa06"/>
       <configSetting altId="sci2.cts_rts2.pa05" configurationId="sci2.cts_rts2" isUsedByDriver="true"/>
