@@ -176,6 +176,9 @@
 /* Wiced WiFi */
 
 
+/* CYW43012 WiFi */
+
+
 /* IoT Cloud */
 
 
@@ -363,7 +366,6 @@
 #define BSP_UART9_TX_BUFSIZE 0
 #define BSP_USING_SCI_SPI
 #define BSP_USING_SCI_SPI2
-#define BSP_USING_SCI
 #define BSP_USING_I2C
 #define BSP_USING_I2C1
 #define BSP_I2C1_SCL_PIN 0x050C

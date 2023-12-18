@@ -10,8 +10,6 @@
             #include "r_uart_api.h"
 #include "r_capture_api.h"
             #include "r_ceu.h"
-#include "r_dtc.h"
-#include "r_transfer_api.h"
 #include "r_sci_b_spi.h"
 #include "r_spi_api.h"
 #include "r_flash_hp.h"
@@ -86,18 +84,6 @@ void NULL(timer_callback_args_t * p_args);
             #ifndef g_ceu_callback
             void g_ceu_callback(capture_callback_args_t * p_args);
             #endif
-/* Transfer on DTC Instance. */
-extern const transfer_instance_t g_transfer1;
-
-/** Access the DTC instance using these structures when calling API functions directly (::p_api is not used). */
-extern dtc_instance_ctrl_t g_transfer1_ctrl;
-extern const transfer_cfg_t g_transfer1_cfg;
-/* Transfer on DTC Instance. */
-extern const transfer_instance_t g_transfer0;
-
-/** Access the DTC instance using these structures when calling API functions directly (::p_api is not used). */
-extern dtc_instance_ctrl_t g_transfer0_ctrl;
-extern const transfer_cfg_t g_transfer0_cfg;
 /** SPI on SCI Instance. */
 extern const spi_instance_t g_sci_spi2;
 

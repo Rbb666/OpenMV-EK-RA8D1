@@ -153,7 +153,7 @@
 #endif
 #ifndef BSP_TZ_CFG_MSSAR
 #define BSP_TZ_CFG_MSSAR (\
-            (((2 > 0) ? 0U : 1U) << 22) /* DTC_DMAC */ | \
+            (((RA_NOT_DEFINED > 0) ? 0U : 1U) << 22) /* DTC_DMAC */ | \
             (((RA_NOT_DEFINED > 0) ? 0U : 1U) << 31) /* ELC */)
 #endif
 
@@ -272,7 +272,7 @@
 #endif
 
             /* Set DTCSTSAR if the Secure program uses the DTC. */
-#if 2 == RA_NOT_DEFINED
+#if RA_NOT_DEFINED == RA_NOT_DEFINED
  #define BSP_TZ_CFG_DTC_USED (0U)
 #else
  #define BSP_TZ_CFG_DTC_USED (1U)

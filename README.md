@@ -114,7 +114,6 @@ OpenMV 是由美国克里斯团队基于 MicroPython 发起的开源机器视觉
 ```python
 import sensor
 import time
-import time
 import lcd
 
 sensor.reset()  # Reset and initialize the sensor.

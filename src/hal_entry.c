@@ -75,7 +75,7 @@ static void omv_entry(void *parameter)
 #ifdef RT_USING_FAL
     fal_init();
 #endif
-#ifdef PKG_TINYUSB_DEVICE_MSC
+#ifdef BSP_USING_FS
     mount_init();
 #endif
     fmath_init();

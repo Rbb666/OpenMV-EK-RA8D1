@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#define SCI_B_SPI_DTC_SUPPORT_ENABLE (1)
+#define SCI_B_SPI_DTC_SUPPORT_ENABLE (0)
 #define SCI_B_SPI_CFG_PARAM_CHECKING_ENABLE (BSP_CFG_PARAM_CHECKING_ENABLE)
 
 #ifdef __cplusplus

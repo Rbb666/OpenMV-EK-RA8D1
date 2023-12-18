@@ -232,10 +232,6 @@
       <description>TES D/AVE 2D Port</description>
       <originalPack>Renesas.RA.5.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dtc" variant="" vendor="Renesas" version="5.1.0">
-      <description>Data Transfer Controller</description>
-      <originalPack>Renesas.RA.5.1.0.pack</originalPack>
-    </component>
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="5.1.0">
       <description>Flash Memory High Performance</description>
       <originalPack>Renesas.RA.5.1.0.pack</originalPack>
@@ -619,37 +615,11 @@
       <property id="module.driver.spi.bit_order" value="module.driver.spi.bit_order.bit_order_msb_first"/>
       <property id="module.driver.spi.clock_source" value="module.driver.spi.clock_source.pclk"/>
       <property id="module.driver.spi.p_callback" value="sci_spi2_callback"/>
-      <property id="module.driver.spi.rxi_ipl" value="board.icu.common.irq.priority12"/>
-      <property id="module.driver.spi.txi_ipl" value="board.icu.common.irq.priority12"/>
-      <property id="module.driver.spi.tei_ipl" value="board.icu.common.irq.priority12"/>
-      <property id="module.driver.spi.eri_ipl" value="board.icu.common.irq.priority12"/>
-      <property id="module.driver.spi.bitrate" value="24000000"/>
-    </module>
-    <module id="module.driver.transfer_on_dtc.1534191028">
-      <property id="module.driver.transfer.name" value="g_transfer0"/>
-      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal"/>
-      <property id="module.driver.transfer.size" value="module.driver.transfer.size.size_2_byte"/>
-      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed"/>
-      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_fixed"/>
-      <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source"/>
-      <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end"/>
-      <property id="module.driver.transfer.length" value="0"/>
-      <property id="module.driver.transfer.num_blocks" value="0"/>
-      <property id="module.driver.transfer.number_of_descriptors" value="1"/>
-      <property id="module.driver.transfer.activation_source" value="_disabled"/>
-    </module>
-    <module id="module.driver.transfer_on_dtc.537710325">
-      <property id="module.driver.transfer.name" value="g_transfer1"/>
-      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal"/>
-      <property id="module.driver.transfer.size" value="module.driver.transfer.size.size_2_byte"/>
-      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed"/>
-      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_fixed"/>
-      <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source"/>
-      <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end"/>
-      <property id="module.driver.transfer.length" value="0"/>
-      <property id="module.driver.transfer.num_blocks" value="0"/>
-      <property id="module.driver.transfer.number_of_descriptors" value="1"/>
-      <property id="module.driver.transfer.activation_source" value="_disabled"/>
+      <property id="module.driver.spi.rxi_ipl" value="board.icu.common.irq.priority6"/>
+      <property id="module.driver.spi.txi_ipl" value="board.icu.common.irq.priority6"/>
+      <property id="module.driver.spi.tei_ipl" value="board.icu.common.irq.priority6"/>
+      <property id="module.driver.spi.eri_ipl" value="board.icu.common.irq.priority6"/>
+      <property id="module.driver.spi.bitrate" value="15000000"/>
     </module>
     <module id="module.driver.display_on_glcdc.343074333">
       <property id="module.driver.display.name" value="g_display"/>
@@ -1163,10 +1133,7 @@
       <stack module="module.driver.ceu_on_capture.1616495849"/>
       <stack module="module.driver.ceu_on_capture.784660971"/>
       <stack module="module.driver.flash_on_flash_hp.95487813"/>
-      <stack module="module.driver.spi_on_sci_b_spi.494223322">
-        <stack module="module.driver.transfer_on_dtc.1534191028" requires="module.driver.spi_on_sci_b_spi.requires.transfer_tx"/>
-        <stack module="module.driver.transfer_on_dtc.537710325" requires="module.driver.spi_on_sci_b_spi.requires.transfer_rx"/>
-      </stack>
+      <stack module="module.driver.spi_on_sci_b_spi.494223322"/>
       <stack module="module.driver.display_on_glcdc.343074333">
         <stack module="module.driver.mipi_dsi.691276448" requires="module.driver.display_on_glcdc.requires.dsi">
           <stack module="module.driver.mipi_phy.1186619183" requires="module.driver.mipi_dsi.requires.mipi_phy"/>
@@ -1202,13 +1169,9 @@
       <property id="config.driver.sci_b_uart.dtc_support" value="config.driver.sci_b_uart.dtc_support.disabled"/>
       <property id="config.driver.sci_b_uart.flow_control" value="config.driver.sci_b_uart.flow_control.disabled"/>
     </config>
-    <config id="config.driver.dtc">
-      <property id="config.driver.dtc.param_checking_enable" value="config.driver.dtc.param_checking_enable.bsp"/>
-      <property id="config.driver.dtc.vector_table" value=".fsp_dtc_vector_table"/>
-    </config>
     <config id="config.driver.sci_b_spi">
       <property id="config.driver.sci_b_spi.param_checking_enable" value="config.driver.sci_b_spi.param_checking_enable.bsp"/>
-      <property id="config.driver.sci_b_spi.dtc_support_enable" value="config.driver.sci_b_spi.dtc_support_enable.enabled"/>
+      <property id="config.driver.sci_b_spi.dtc_support_enable" value="config.driver.sci_b_spi.dtc_support_enable.disabled"/>
     </config>
     <config id="config.driver.gpt">
       <property id="config.driver.gpt.param_checking_enable" value="config.driver.gpt.param_checking_enable.bsp"/>
@@ -1764,8 +1727,6 @@
       <configSetting altId="pa03.gpio_mode.gpio_mode_peripheral" configurationId="pa03.gpio_mode"/>
       <configSetting altId="pa04.sci2.sck2" configurationId="pa04"/>
       <configSetting altId="pa04.gpio_mode.gpio_mode_peripheral" configurationId="pa04.gpio_mode"/>
-      <configSetting altId="pa05.sci2.cts_rts2" configurationId="pa05"/>
-      <configSetting altId="pa05.gpio_mode.gpio_mode_peripheral" configurationId="pa05.gpio_mode"/>
       <configSetting altId="pa06.input" configurationId="pa06"/>
       <configSetting altId="pa06.gpio_mode.gpio_mode_in" configurationId="pa06.gpio_mode"/>
       <configSetting altId="pa08.sdram.dq15" configurationId="pa08"/>
@@ -1805,7 +1766,6 @@
       <configSetting altId="pb07.glcd.lcd_data15" configurationId="pb07"/>
       <configSetting altId="pb07.gpio_speed.gpio_speed_m" configurationId="pb07.gpio_drivecapacity"/>
       <configSetting altId="pb07.gpio_mode.gpio_mode_peripheral" configurationId="pb07.gpio_mode"/>
-      <configSetting altId="sci2.cts_rts2.pa05" configurationId="sci2.cts_rts2"/>
       <configSetting altId="sci2.mode.simplespi.free" configurationId="sci2.mode"/>
       <configSetting altId="sci2.rxd2.pa02" configurationId="sci2.rxd2"/>
       <configSetting altId="sci2.sck2.pa04" configurationId="sci2.sck2"/>

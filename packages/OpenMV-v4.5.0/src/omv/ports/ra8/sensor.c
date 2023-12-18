@@ -68,7 +68,6 @@ int sensor_init(void)
 
 int sensor_set_xclk_frequency(uint32_t frequency)
 {
-
     return 0;
 }
 
@@ -84,7 +83,6 @@ int sensor_set_vsync_callback(vsync_cb_t vsync_cb)
 
 int sensor_dcmi_config(uint32_t pixformat)
 {
-
     return 0;
 }
 

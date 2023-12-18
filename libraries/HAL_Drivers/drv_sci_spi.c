@@ -44,8 +44,6 @@
 #define RA_SCI_SPI9_EVENT 0x0200
 static struct rt_event complete_event = {0};
 
-static void CleanSPIDCache(void);
-
 static struct ra_sci_spi_handle spi_handle[] =
 {
 #ifdef BSP_USING_SCI_SPI0
@@ -315,28 +313,28 @@ static rt_ssize_t ra_spixfer(struct rt_spi_device *device, struct rt_spi_message
         {
             /**< receive message */
             err = ra_read_message(device, (void *)message->recv_buf, (const rt_size_t)message->length);
-#ifdef __DCACHE_PRESENT
-			SCB_InvalidateDCache_by_Addr((uint32_t *) message->recv_buf,  message->length);
-#endif        
+//#ifdef __DCACHE_PRESENT
+//			SCB_InvalidateDCache_by_Addr((uint32_t *) message->recv_buf,  message->length);
+//#endif        
 		}
         else if (message->send_buf != RT_NULL && message->recv_buf == RT_NULL)
         {
-#ifdef __DCACHE_PRESENT
-			SCB_CleanDCache_by_Addr((uint32_t *) message->send_buf,  message->length);
-#endif
+//#ifdef __DCACHE_PRESENT
+//			SCB_CleanDCache_by_Addr((uint32_t *) message->send_buf,  message->length);
+//#endif
             /**< send message */
             err = ra_write_message(device, (const void *)message->send_buf, (const rt_size_t)message->length);
         }
         else if (message->send_buf != RT_NULL && message->recv_buf != RT_NULL)
         {
-#ifdef __DCACHE_PRESENT
-			SCB_CleanInvalidateDCache();
-#endif
+//#ifdef __DCACHE_PRESENT
+//			SCB_CleanInvalidateDCache();
+//#endif
             /**< send and receive message */
             err =  ra_write_read_message(device, message);
-#ifdef __DCACHE_PRESENT
-			SCB_CleanInvalidateDCache();
-#endif
+//#ifdef __DCACHE_PRESENT
+//			SCB_CleanInvalidateDCache();
+//#endif
         }
     }
 

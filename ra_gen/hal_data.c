@@ -484,104 +484,6 @@ ceu_instance_ctrl_t g_ceu_64X64_ctrl;
                 .p_cfg =  &g_ceu_64X64_cfg,
                 .p_api =  &g_ceu_on_capture,
             };
-dtc_instance_ctrl_t g_transfer1_ctrl;
-
-#if (1 == 1)
-transfer_info_t g_transfer1_info =
-{
-    .transfer_settings_word_b.dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
-    .transfer_settings_word_b.repeat_area    = TRANSFER_REPEAT_AREA_DESTINATION,
-    .transfer_settings_word_b.irq            = TRANSFER_IRQ_END,
-    .transfer_settings_word_b.chain_mode     = TRANSFER_CHAIN_MODE_DISABLED,
-    .transfer_settings_word_b.src_addr_mode  = TRANSFER_ADDR_MODE_FIXED,
-    .transfer_settings_word_b.size           = TRANSFER_SIZE_1_BYTE,
-    .transfer_settings_word_b.mode           = TRANSFER_MODE_NORMAL,
-    .p_dest                                  = (void *) NULL,
-    .p_src                                   = (void const *) NULL,
-    .num_blocks                              = 0,
-    .length                                  = 0,
-};
-
-#elif (1 > 1)
-/* User is responsible to initialize the array. */
-transfer_info_t g_transfer1_info[1];
-#else
-/* User must call api::reconfigure before enable DTC transfer. */
-#endif
-
-const dtc_extended_cfg_t g_transfer1_cfg_extend =
-{
-    .activation_source   = VECTOR_NUMBER_SCI2_RXI,
-};
-
-const transfer_cfg_t g_transfer1_cfg =
-{
-#if (1 == 1)
-    .p_info              = &g_transfer1_info,
-#elif (1 > 1)
-    .p_info              = g_transfer1_info,
-#else
-    .p_info = NULL,
-#endif
-    .p_extend            = &g_transfer1_cfg_extend,
-};
-
-/* Instance structure to use this module. */
-const transfer_instance_t g_transfer1 =
-{
-    .p_ctrl        = &g_transfer1_ctrl,
-    .p_cfg         = &g_transfer1_cfg,
-    .p_api         = &g_transfer_on_dtc
-};
-dtc_instance_ctrl_t g_transfer0_ctrl;
-
-#if (1 == 1)
-transfer_info_t g_transfer0_info =
-{
-    .transfer_settings_word_b.dest_addr_mode = TRANSFER_ADDR_MODE_FIXED,
-    .transfer_settings_word_b.repeat_area    = TRANSFER_REPEAT_AREA_SOURCE,
-    .transfer_settings_word_b.irq            = TRANSFER_IRQ_END,
-    .transfer_settings_word_b.chain_mode     = TRANSFER_CHAIN_MODE_DISABLED,
-    .transfer_settings_word_b.src_addr_mode  = TRANSFER_ADDR_MODE_INCREMENTED,
-    .transfer_settings_word_b.size           = TRANSFER_SIZE_1_BYTE,
-    .transfer_settings_word_b.mode           = TRANSFER_MODE_NORMAL,
-    .p_dest                                  = (void *) NULL,
-    .p_src                                   = (void const *) NULL,
-    .num_blocks                              = 0,
-    .length                                  = 0,
-};
-
-#elif (1 > 1)
-/* User is responsible to initialize the array. */
-transfer_info_t g_transfer0_info[1];
-#else
-/* User must call api::reconfigure before enable DTC transfer. */
-#endif
-
-const dtc_extended_cfg_t g_transfer0_cfg_extend =
-{
-    .activation_source   = VECTOR_NUMBER_SCI2_TXI,
-};
-
-const transfer_cfg_t g_transfer0_cfg =
-{
-#if (1 == 1)
-    .p_info              = &g_transfer0_info,
-#elif (1 > 1)
-    .p_info              = g_transfer0_info,
-#else
-    .p_info = NULL,
-#endif
-    .p_extend            = &g_transfer0_cfg_extend,
-};
-
-/* Instance structure to use this module. */
-const transfer_instance_t g_transfer0 =
-{
-    .p_ctrl        = &g_transfer0_ctrl,
-    .p_cfg         = &g_transfer0_cfg,
-    .p_api         = &g_transfer_on_dtc
-};
 sci_b_spi_instance_ctrl_t g_sci_spi2_ctrl;
 
 /** SPI extended configuration */
@@ -602,15 +504,15 @@ const spi_cfg_t g_sci_spi2_cfg =
     .mode_fault      = SPI_MODE_FAULT_ERROR_DISABLE,
     .bit_order       = SPI_BIT_ORDER_MSB_FIRST,
 #define RA_NOT_DEFINED (1)
-#if (RA_NOT_DEFINED == g_transfer0)
+#if (RA_NOT_DEFINED == RA_NOT_DEFINED)
     .p_transfer_tx   = NULL,
 #else
-    .p_transfer_tx   = &g_transfer0,
+    .p_transfer_tx   = &RA_NOT_DEFINED,
 #endif
-#if (RA_NOT_DEFINED == g_transfer1)
+#if (RA_NOT_DEFINED == RA_NOT_DEFINED)
     .p_transfer_rx   = NULL,
 #else
-    .p_transfer_rx   = &g_transfer1,
+    .p_transfer_rx   = &RA_NOT_DEFINED,
 #endif
 #undef RA_NOT_DEFINED
     .p_callback      = sci_spi2_callback,
@@ -619,10 +521,10 @@ const spi_cfg_t g_sci_spi2_cfg =
     .txi_irq         = VECTOR_NUMBER_SCI2_TXI,
     .tei_irq         = VECTOR_NUMBER_SCI2_TEI,
     .eri_irq         = VECTOR_NUMBER_SCI2_ERI,
-    .rxi_ipl         = (12),
-    .txi_ipl         = (12),
-    .tei_ipl         = (12),
-    .eri_ipl         = (12),
+    .rxi_ipl         = (6),
+    .txi_ipl         = (6),
+    .tei_ipl         = (6),
+    .eri_ipl         = (6),
     .p_extend        = &g_sci_spi2_cfg_extend,
 };
 /* Instance structure to use this module. */

@@ -77,7 +77,6 @@
         <file category="header" name="ra/fsp/inc/fsp_features.h" path=""/>
         <file category="header" name="ra/fsp/inc/fsp_version.h" path=""/>
         <file category="header" name="ra/fsp/inc/instances/r_ceu.h" path=""/>
-        <file category="header" name="ra/fsp/inc/instances/r_dtc.h" path=""/>
         <file category="header" name="ra/fsp/inc/instances/r_flash_hp.h" path=""/>
         <file category="header" name="ra/fsp/inc/instances/r_glcdc.h" path=""/>
         <file category="header" name="ra/fsp/inc/instances/r_gpt.h" path=""/>
@@ -138,7 +137,6 @@
         <file category="header" name="ra/fsp/src/r_drw/r_drw_base.h" path=""/>
         <file category="source" name="ra/fsp/src/r_drw/r_drw_irq.c"/>
         <file category="source" name="ra/fsp/src/r_drw/r_drw_memory.c"/>
-        <file category="source" name="ra/fsp/src/r_dtc/r_dtc.c"/>
         <file category="source" name="ra/fsp/src/r_flash_hp/r_flash_hp.c"/>
         <file category="source" name="ra/fsp/src/r_glcdc/r_glcdc.c"/>
         <file category="source" name="ra/fsp/src/r_gpt/r_gpt.c"/>
@@ -219,7 +217,6 @@
         <file category="header" name="ra_cfg/fsp_cfg/bsp/bsp_pin_cfg.h" path=""/>
         <file category="header" name="ra_cfg/fsp_cfg/r_ceu_cfg.h" path=""/>
         <file category="header" name="ra_cfg/fsp_cfg/r_drw_cfg.h" path=""/>
-        <file category="header" name="ra_cfg/fsp_cfg/r_dtc_cfg.h" path=""/>
         <file category="header" name="ra_cfg/fsp_cfg/r_flash_hp_cfg.h" path=""/>
         <file category="header" name="ra_cfg/fsp_cfg/r_glcdc_cfg.h" path=""/>
         <file category="header" name="ra_cfg/fsp_cfg/r_gpt_cfg.h" path=""/>
