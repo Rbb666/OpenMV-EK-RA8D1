@@ -87,7 +87,6 @@ OpenMV 是由美国克里斯团队基于 MicroPython 发起的开源机器视觉
 ### Todo
 
 - [ ] TFlite-Micro 支持
-- [ ] Machine 模块支持
 - [ ] 文件相关支持
 
 ## OpenMV 使用说明
@@ -110,7 +109,29 @@ OpenMV 是由美国克里斯团队基于 MicroPython 发起的开源机器视觉
 
 ![](docs/picture/8.png)
 
-3、OpenMV IDE 还有很多示例，大家可以自行体验：
+3、使用LCD同步显示摄像头数据：运行如下代码后，lcd会同步显示摄像头数据
+
+```python
+import sensor
+import time
+import time
+import lcd
+
+sensor.reset()  # Reset and initialize the sensor.
+sensor.set_pixformat(sensor.RGB565)  # Set pixel format to RGB565 (or GRAYSCALE)
+sensor.set_framesize(sensor.QVGA)  # Set frame size to QVGA (320x240)
+sensor.skip_frames(time=2000)  # Wait for settings take effect.
+clock = time.clock()  # Create a clock object to track the FPS.
+lcd.init()
+
+while True:
+    clock.tick()  # Update the FPS clock.
+    img = sensor.snapshot()  # Take a picture and return the image.
+    img.draw_string(0, 0, "fps:%2.2f" % clock.fps(), color=(255,0,0), scale=1)
+    lcd.display(img)
+```
+
+4、OpenMV IDE 还有很多示例，大家可以自行体验：
 
 ![](docs/picture/9.png)
 
@@ -151,3 +172,17 @@ i2c.scan()
 
 运行后，终端会显示：i2c scan addr:[20 33]，这里的 address 需要根据实际开发板外挂的从机 address 决定。
 
+### OpenMV PWM 示例
+
+说明：当前使用编号为 6 的 PWM 设备的 0 通道，初始化频率为 1000Hz，占空比数值为 100（占空比为 100/255 = 39.22%）
+
+```python
+from machine import PWM
+
+pwm = PWM(6, 0, 1000, 100) # 创建 PWM 对象，当前使用编号为 6 的 PWM 设备的 0 通道，初始化频率为 1000Hz，占空比数值为 100（占空比为 100/255 = 39.22%）
+pwm.duty(100)              # 设置 PWM 对象占空比数值
+```
+
+开发板的PWM6通道0使用的是P600引脚，这个引脚同时是开发板LED(蓝色)。下图为使用逻辑分析仪抓取的波形
+
+![](docs/picture/10.png)

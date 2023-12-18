@@ -119,7 +119,7 @@ STATIC void machine_pwm_init_helper(machine_pwm_obj_t *self,
     }
 
     pwm_device = (struct rt_device_pwm *) rt_device_find(pwm_dev_name);
-    if (pwm_device == RT_NULL || pwm_device->parent.type != RT_Device_Class_Miscellaneous) {
+    if (pwm_device == RT_NULL || pwm_device->parent.type != RT_Device_Class_PWM) {
         nlr_raise(mp_obj_new_exception_msg_varg(&mp_type_ValueError,
                                                 "PWM(%s) don't exist", pwm_dev_name));
     }
