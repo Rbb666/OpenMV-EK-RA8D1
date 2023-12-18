@@ -4,9 +4,10 @@ from building import *
 src = []
 objs = []
 cwd  = GetCurrentDir()
-CPPPATH = [cwd]
 
-objs = DefineGroup('Openmv', src, depend = [''], CPPPATH = CPPPATH)
+path    = [cwd + '/lib/libtf']
+
+objs = DefineGroup('Openmv', src, depend = [''], CPPPATH = path)
 
 list = os.listdir(cwd)
 for item in list:

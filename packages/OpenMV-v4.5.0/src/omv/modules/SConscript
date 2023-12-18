@@ -12,6 +12,7 @@ src += Glob('py_image.c')
 src += Glob('py_imageio.c')
 src += Glob('py_sensor.c')
 src += Glob('py_display.c')
+src += Glob('py_tf.c')
 
 objs = DefineGroup('Openmv', src, depend = [''], CPPPATH = CPPPATH)
 

@@ -76,7 +76,7 @@ static void omv_entry(void *parameter)
     fal_init();
 #endif
 #ifdef BSP_USING_FS
-    mount_init();
+    // mount_init();
 #endif
     fmath_init();
 
