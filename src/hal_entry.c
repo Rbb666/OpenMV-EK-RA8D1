@@ -45,7 +45,7 @@
 /* Onboard LED pins */
 #define LED_PIN    BSP_IO_PORT_06_PIN_00
 /* MicroPython runs as a task under RT-Thread */
-#define MP_TASK_STACK_SIZE      (16 * 1024)
+#define MP_TASK_STACK_SIZE      (64 * 1024)
 
 #ifdef RT_USING_MEMHEAP_AS_HEAP
     struct rt_memheap system_heap;
@@ -76,7 +76,7 @@ static void omv_entry(void *parameter)
     fal_init();
 #endif
 #ifdef BSP_USING_FS
-    // mount_init();
+    mount_init();
 #endif
     fmath_init();
 

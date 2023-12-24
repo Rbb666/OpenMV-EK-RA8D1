@@ -146,15 +146,13 @@ STATIC const mp_rom_map_elem_t py_tf_classification_locals_dict_table[] = {
 
 STATIC MP_DEFINE_CONST_DICT(py_tf_classification_locals_dict, py_tf_classification_locals_dict_table);
 
-MP_DEFINE_CONST_OBJ_TYPE(
-    py_tf_classification_type,
-    MP_QSTR_tf_classification,
-    MP_TYPE_FLAG_NONE,
-    print, py_tf_classification_print,
-    subscr, py_tf_classification_subscr,
-    locals_dict, &py_tf_classification_locals_dict
-    );
-
+static const mp_obj_type_t py_tf_classification_type = {
+    { &mp_type_type },
+    .name  = MP_QSTR_tf_classification,
+    .print = py_tf_classification_print,
+    .subscr = py_tf_classification_subscr,
+    .locals_dict = (mp_obj_t) &py_tf_classification_locals_dict
+};
 static const mp_obj_type_t py_tf_model_type;
 
 STATIC mp_obj_t int_py_tf_load(mp_obj_t path_obj, bool alloc_mode, bool helper_mode) {
@@ -827,13 +825,12 @@ STATIC const mp_rom_map_elem_t locals_dict_table[] = {
 
 STATIC MP_DEFINE_CONST_DICT(py_tf_locals_dict, locals_dict_table);
 
-STATIC MP_DEFINE_CONST_OBJ_TYPE(
-    py_tf_model_type,
-    MP_QSTR_tf_model,
-    MP_TYPE_FLAG_NONE,
-    print, py_tf_model_print,
-    locals_dict, &py_tf_locals_dict
-    );
+static const mp_obj_type_t py_tf_model_type = {
+    { &mp_type_type },
+    .name  = MP_QSTR_tf_model,
+    .print = py_tf_model_print,
+    .locals_dict = (mp_obj_t) &py_tf_locals_dict
+};
 
 #endif // IMLIB_ENABLE_TF
 
@@ -865,4 +862,4 @@ const mp_obj_module_t tf_module = {
     .globals = (mp_obj_t) &globals_dict
 };
 
-MP_REGISTER_MODULE(MP_QSTR_tf, tf_module);
+MP_REGISTER_MODULE(MP_QSTR_tf, tf_module, 1);

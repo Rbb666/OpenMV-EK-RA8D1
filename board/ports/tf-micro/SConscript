@@ -41,8 +41,12 @@ micro_src += Glob('tensorflow/lite/micro/tflite_bridge/*.cpp')
 
 micro_nn_src =  Glob('tensorflow/lite/micro/kernels/cmsis_nn/*.cpp')
 
+libtf_src =  Glob('libtf/*.c')
+libtf_src += Glob('libtf/*.cpp')
+
 micro_kernels_src =  Glob('tensorflow/lite/micro/kernels/*.c')
 micro_kernels_src += Glob('tensorflow/lite/micro/kernels/*.cpp')
+micro_kernels_src += Glob('tensorflow/lite/micro/cortex_m_generic/*.cpp')
 
 SrcRemove(micro_kernels_src, ['tensorflow/lite/micro/kernels/add.cpp'])
 SrcRemove(micro_kernels_src, ['tensorflow/lite/micro/kernels/conv.cpp'])
@@ -52,8 +56,11 @@ SrcRemove(micro_kernels_src, ['tensorflow/lite/micro/kernels/mul.cpp'])
 SrcRemove(micro_kernels_src, ['tensorflow/lite/micro/kernels/pooling.cpp'])
 SrcRemove(micro_kernels_src, ['tensorflow/lite/micro/kernels/softmax.cpp'])
 SrcRemove(micro_kernels_src, ['tensorflow/lite/micro/kernels/svdf.cpp'])
+SrcRemove(micro_src, ['tensorflow/lite/micro/debug_log.cpp'])
+SrcRemove(micro_src, ['tensorflow/lite/micro/micro_time.cpp'])
 
 path    = [cwd + '/']
+path   += [cwd + '/libtf']
 path   += [cwd + '/third_party/gemmlowp']
 path   += [cwd + '/third_party/flatbuffers/include']
 path   += [cwd + '/third_party/ruy']
@@ -64,6 +71,7 @@ path   += [cwd + '/signal/src/kiss_fft_wrappers']
 
 CPPDEFINES = ['TF_LITE_STATIC_MEMORY']
 
+group = DefineGroup('lib-tf', libtf_src, depend = [''])
 group = DefineGroup('tf-signal', signal_src, depend = [''])
 group = DefineGroup('tf-micro', micro_src, depend = [''])
 group = DefineGroup('tf-micro-nn', micro_nn_src, depend = [''])

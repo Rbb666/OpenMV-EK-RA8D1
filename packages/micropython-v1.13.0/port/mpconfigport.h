@@ -421,6 +421,7 @@ extern const struct _mp_obj_module_t mp_module_utime;
 extern const struct _mp_obj_module_t sensor_module;
 extern const struct _mp_obj_module_t image_module;
 extern const struct _mp_obj_module_t lcd_module;
+extern const struct _mp_obj_module_t tf_module;
 #endif /* BSP_USING_OPENMV */
 
 #if defined (BSP_USING_OPENMV) && defined(OPENMV_USING_LCD)
@@ -439,6 +440,12 @@ extern const struct _mp_obj_module_t lcd_module;
 #define IMAGE_PORT_BUILTIN_MODULES { MP_ROM_QSTR(MP_QSTR_image), MP_ROM_PTR(&image_module) },
 #else
 #define IMAGE_PORT_BUILTIN_MODULES
+#endif /* BSP_USING_OPENMV */
+
+#ifdef BSP_USING_OPENMV
+#define TF_PORT_BUILTIN_MODULES { MP_ROM_QSTR(MP_QSTR_tf), MP_ROM_PTR(&tf_module) },
+#else
+#define TF_PORT_BUILTIN_MODULES
 #endif /* BSP_USING_OPENMV */
 ////////////////////////////////////////////////////////////////////////
 
@@ -578,6 +585,7 @@ extern const struct _mp_obj_module_t lcd_module;
     { MP_ROM_QSTR(MP_QSTR_pyb), MP_ROM_PTR(&pyb_module) },              \
     SENSOR_PORT_BUILTIN_MODULES \
     IMAGE_PORT_BUILTIN_MODULES  \
+    TF_PORT_BUILTIN_MODULES     \
     LCD_PORT_BUILTIN_MODULES    \
     RTTHREAD_PORT_BUILTIN_MODULES \
     MODUOS_PORT_BUILTIN_MODULES \
