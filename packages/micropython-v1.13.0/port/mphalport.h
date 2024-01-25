@@ -33,6 +33,24 @@
 
 #define MICROPY_HW_USB_CDC_TX_TIMEOUT (500)
 
+// This macro is used to implement PEP 475 to retry specified syscalls on EINTR
+#define MP_HAL_RETRY_SYSCALL(ret, syscall, raise) { \
+        for (;;) { \
+            MP_THREAD_GIL_EXIT(); \
+            ret = syscall; \
+            MP_THREAD_GIL_ENTER(); \
+            if (ret == -1) { \
+                int err = errno; \
+                if (err == EINTR) { \
+                    mp_handle_pending(true); \
+                    continue; \
+                } \
+                raise; \
+            } \
+            break; \
+        } \
+}
+
 extern ringbuf_t stdin_ringbuf;
 
 void mp_hal_set_interrupt_char(int c); // -1 to disable

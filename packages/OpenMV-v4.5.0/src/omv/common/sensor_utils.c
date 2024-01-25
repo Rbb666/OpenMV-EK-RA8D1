@@ -29,6 +29,7 @@
 #include "paj6100.h"
 #include "frogeye2020.h"
 #include "gc2145.h"
+#include "gc0328.h"
 #include "framebuffer.h"
 #include "omv_boardconfig.h"
 #include "omv_gpio.h"
@@ -188,16 +189,26 @@ static int sensor_detect() {
                 return slv_addr;
             #endif // (OMV_ENABLE_OV5640 == 1)
 
-            #if (OMV_ENABLE_OV7725 == 1) || (OMV_ENABLE_OV7670 == 1) || (OMV_ENABLE_OV7690 == 1)
-            case OV7725_SLV_ADDR: // Or OV7690 or OV7670.
+            #if (OMV_ENABLE_OV7725 == 1) || (OMV_ENABLE_OV7670 == 1) || (OMV_ENABLE_OV7690 == 1) || (OMV_ENABLE_GC0328 == 1)
+            case OV7725_SLV_ADDR: // Or OV7690 or OV7670 or GC0328.
                 omv_i2c_readb(&sensor.i2c_bus, slv_addr, OV_CHIP_ID, &sensor.chip_id);
+                switch (sensor.chip_id)
+                {
+                	case OV7670_ID:
+                    case OV7725_ID:
+                		break;
+                	default:
+                    {
+                        omv_i2c_readb(&sensor.i2c_bus, slv_addr, GC_CHIP_ID, &sensor.chip_id);
+                        break;
+                    }
+                }
                 return slv_addr;
-            #endif //(OMV_ENABLE_OV7725 == 1) || (OMV_ENABLE_OV7670 == 1) || (OMV_ENABLE_OV7690 == 1)
+            #endif //(OMV_ENABLE_OV7725 == 1) || (OMV_ENABLE_OV7670 == 1) || (OMV_ENABLE_OV7690 == 1) || (OMV_ENABLE_GC0328 == 1)
 
             #if (OMV_ENABLE_MT9V0XX == 1)
             case MT9V0XX_SLV_ADDR:
                 omv_i2c_readw(&sensor.i2c_bus, slv_addr, ON_CHIP_ID, &sensor.chip_id_w);
-                rt_kprintf("%#x\n", sensor.chip_id_w);
                 return slv_addr;
             #endif //(OMV_ENABLE_MT9V0XX == 1)
 
@@ -441,6 +452,15 @@ int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed) {
             init_ret = frogeye2020_init(&sensor);
             break;
         #endif // (OMV_ENABLE_FROGEYE2020 == 1)
+
+        #if (OMV_ENABLE_GC0328 == 1)
+        case GC0328_ID:
+            if (sensor_set_xclk_frequency(GC0328_XCLK_FREQ) != 0) {
+                return SENSOR_ERROR_TIM_INIT_FAILED;
+            }
+            init_ret = gc0328_init(&sensor);
+            break;
+        #endif // (OMV_ENABLE_GC0328 == 1)
 
         default:
             return SENSOR_ERROR_ISC_UNSUPPORTED;

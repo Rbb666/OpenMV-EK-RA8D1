@@ -71,12 +71,12 @@ STATIC void fdfile_print(const mp_print_t *print, mp_obj_t self_in, mp_print_kin
 STATIC mp_uint_t fdfile_read(mp_obj_t o_in, void *buf, mp_uint_t size, int *errcode) {
     mp_obj_fdfile_t *o = MP_OBJ_TO_PTR(o_in);
     check_fd_is_open(o);
-    mp_int_t r = read(o->fd, buf, size);
-    if (r == -1) {
-        *errcode = errno;
+    ssize_t r;
+    MP_HAL_RETRY_SYSCALL(r, read(o->fd, buf, size), {
+        *errcode = err;
         return MP_STREAM_ERROR;
-    }
-    return r;
+    });
+    return (mp_uint_t)r;
 }
 
 STATIC mp_uint_t fdfile_write(mp_obj_t o_in, const void *buf, mp_uint_t size, int *errcode) {
@@ -88,29 +88,27 @@ STATIC mp_uint_t fdfile_write(mp_obj_t o_in, const void *buf, mp_uint_t size, in
         return size;
     }
     #endif
-    mp_int_t r = write(o->fd, buf, size);
-    while (r == -1 && errno == MP_EINTR) {
-        if (MP_STATE_VM(mp_pending_exception) != MP_OBJ_NULL) {
-            mp_obj_t obj = MP_STATE_VM(mp_pending_exception);
-            MP_STATE_VM(mp_pending_exception) = MP_OBJ_NULL;
-            nlr_raise(obj);
-        }
-        r = write(o->fd, buf, size);
-    }
-    if (r == -1) {
-        *errcode = errno;
+    ssize_t r;
+    MP_HAL_RETRY_SYSCALL(r, write(o->fd, buf, size), {
+        *errcode = err;
         return MP_STREAM_ERROR;
-    }
-    return r;
+    });
+    return (mp_uint_t)r;
 }
 
 STATIC mp_uint_t fdfile_ioctl(mp_obj_t o_in, mp_uint_t request, uintptr_t arg, int *errcode) {
     mp_obj_fdfile_t *o = MP_OBJ_TO_PTR(o_in);
-    check_fd_is_open(o);
+    
+    if (request != MP_STREAM_CLOSE) {
+        check_fd_is_open(o);
+    }
+
     switch (request) {
         case MP_STREAM_SEEK: {
             struct mp_stream_seek_t *s = (struct mp_stream_seek_t*)arg;
+            MP_THREAD_GIL_EXIT();
             off_t off = lseek(o->fd, s->offset, s->whence);
+            MP_THREAD_GIL_ENTER();
             if (off == (off_t)-1) {
                 *errcode = errno;
                 return MP_STREAM_ERROR;
@@ -118,11 +116,28 @@ STATIC mp_uint_t fdfile_ioctl(mp_obj_t o_in, mp_uint_t request, uintptr_t arg, i
             s->offset = off;
             return 0;
         }
-        case MP_STREAM_FLUSH:
-            if (fsync(o->fd) < 0) {
-                *errcode = errno;
+        case MP_STREAM_FLUSH:{
+            int ret;
+            MP_HAL_RETRY_SYSCALL(ret, fsync(o->fd), {
+                if (err == EINVAL
+                    && (o->fd == STDIN_FILENO || o->fd == STDOUT_FILENO || o->fd == STDERR_FILENO)) {
+                    // fsync(stdin/stdout/stderr) may fail with EINVAL, but don't propagate that
+                    // error out.  Because data is not buffered by us, and stdin/out/err.flush()
+                    // should just be a no-op.
+                    return 0;
+                }
+                *errcode = err;
                 return MP_STREAM_ERROR;
-            }
+            });
+            return 0;
+        }
+        case MP_STREAM_CLOSE:
+            MP_THREAD_GIL_EXIT();
+            close(o->fd);
+            MP_THREAD_GIL_ENTER();
+            #ifdef MICROPY_CPYTHON_COMPAT
+            o->fd = -1;
+            #endif
             return 0;
         default:
             *errcode = EINVAL;
@@ -142,7 +157,7 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_1(fdfile_close_obj, fdfile_close);
 
 STATIC mp_obj_t fdfile___exit__(size_t n_args, const mp_obj_t *args) {
     (void)n_args;
-    return fdfile_close(args[0]);
+    return mp_stream_close(args[0]);
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(fdfile___exit___obj, 4, 4, fdfile___exit__);
 
@@ -177,6 +192,10 @@ STATIC mp_obj_t fdfile_open(const mp_obj_type_t *type, mp_arg_val_t *args) {
                 mode_rw = O_WRONLY;
                 mode_x = O_CREAT | O_TRUNC;
                 break;
+            case 'x':
+                mode_rw = O_WRONLY;
+                mode_x = O_CREAT | O_EXCL;
+                break;
             case 'a':
                 mode_rw = O_WRONLY;
                 mode_x = O_CREAT | O_APPEND;
@@ -206,10 +225,8 @@ STATIC mp_obj_t fdfile_open(const mp_obj_type_t *type, mp_arg_val_t *args) {
     }
 
     const char *fname = mp_obj_str_get_str(fid);
-    int fd = open(fname, mode_x | mode_rw, 0644);
-    if (fd == -1) {
-        mp_raise_OSError(errno);
-    }
+    int fd;
+    MP_HAL_RETRY_SYSCALL(fd, open(fname, mode_x | mode_rw, 0644), mp_raise_OSError(err));
     o->fd = fd;
     return MP_OBJ_FROM_PTR(o);
 }

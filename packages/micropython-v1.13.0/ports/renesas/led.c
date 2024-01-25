@@ -73,10 +73,10 @@ void led_state(ra_led_t led, int state) {
     const machine_pin_obj_t *led_pin = machine_led_obj[led - 1].led_pin;
     if (state == 0) {
         // turn LED off
-        rt_pin_write(led_pin->pin, 0);
+        rt_pin_write(led_pin->pin, 1);
     } else {
         // turn LED on
-        rt_pin_write(led_pin->pin, 1);
+        rt_pin_write(led_pin->pin, 0);
     }
 }
 

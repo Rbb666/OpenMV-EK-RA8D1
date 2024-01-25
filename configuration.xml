@@ -280,10 +280,6 @@
       <description>Board support package for RA8D1 - FSP Data</description>
       <originalPack>Renesas.RA_mcu_ra8d1.5.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="NN" variant="" vendor="Arm" version="4.1.0+fsp.5.1.0">
-      <description>Arm NN Library Source</description>
-      <originalPack>Arm.CMSIS-NN.4.1.0+fsp.5.1.0.pack</originalPack>
-    </component>
   </raComponentSelection>
   <raElcConfiguration/>
   <raIcuConfiguration/>

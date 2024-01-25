@@ -23,16 +23,18 @@
     #include <py/mperrno.h>
     #include <py/stackctrl.h>
     #include <py/frozenmod.h>
+    #include <py/mphal.h>
     #include <lib/utils/pyexec.h>
     #include <lib/mp-readline/readline.h>
-    #include "framebuffer.h"
-    #include "fb_alloc.h"
-    #include "ff_wrapper.h"
-    #include "usbdbg.h"
-    #include "sensor.h"
-    #include "tinyusb_debug.h"
-    #include "tusb.h"
-    #include "led.h"
+    #include <framebuffer.h>
+    #include <fb_alloc.h>
+    #include <ff_wrapper.h>
+    #include <usbdbg.h>
+    #include <sensor.h>
+    #include <tinyusb_debug.h>
+    #include <tusb.h>
+    #include <led.h>
+    #include <mpy_main.h>
 #endif /* BSP_USING_OPENMV */
 #ifdef RT_USING_FAL
     #include "fal.h"
@@ -42,8 +44,6 @@
 #define LOG_TAG             "main"
 #include <drv_log.h>
 
-/* Onboard LED pins */
-#define LED_PIN    BSP_IO_PORT_06_PIN_00
 /* MicroPython runs as a task under RT-Thread */
 #define MP_TASK_STACK_SIZE      (64 * 1024)
 
@@ -57,11 +57,47 @@ static char OMV_ATTR_SECTION(OMV_ATTR_ALIGNED(gc_heap[OMV_HEAP_SIZE], 4), ".data
 
 extern int mount_init(void);
 extern void fmath_init(void);
-static void exec_boot_script(const char *path, bool interruptible);
+static bool exec_boot_script(const char *path, bool interruptible);
 
 void *__signgam_addr(void)
 {
     return NULL;
+}
+
+void flash_error(int n)
+{
+    led_state(LED_RED, 0);
+    led_state(LED_GREEN, 0);
+    led_state(LED_BLUE, 0);
+    for (int i = 0; i < n; i++)
+    {
+        led_state(LED_RED, 0);
+        rt_thread_mdelay(100);
+        led_state(LED_RED, 1);
+        rt_thread_mdelay(100);
+    }
+    led_state(LED_RED, 0);
+}
+
+void NORETURN __fatal_error(const char *msg)
+{
+    rt_thread_mdelay(100);
+    led_state(1, 1);
+    led_state(2, 1);
+    led_state(3, 1);
+    led_state(4, 1);
+    mp_hal_stdout_tx_strn("\nFATAL ERROR:\n", 14);
+    mp_hal_stdout_tx_strn(msg, strlen(msg));
+    for (uint i = 0;;)
+    {
+        led_toggle(((i++) & 3) + 1);
+        rt_thread_mdelay(100);
+        if (i >= 16)
+        {
+            // to conserve power
+            __WFI();
+        }
+    }
 }
 
 static void omv_entry(void *parameter)
@@ -72,17 +108,21 @@ static void omv_entry(void *parameter)
 
     bool first_soft_reset = true;
 
+#ifdef __DCACHE_PRESENT
+    /* Clean and enable cache */
+    SCB_CleanDCache();
+#endif
 #ifdef RT_USING_FAL
     fal_init();
 #endif
 #ifdef BSP_USING_FS
     mount_init();
+    /* wait sdcard mount */
+    rt_thread_mdelay(200);
+
+    struct dfs_fdtable *fd_table_bak = NULL;
 #endif
     fmath_init();
-
-    framebuffer_init0();
-    fb_alloc_init0();
-
 #if MICROPY_PY_THREAD
     mp_thread_init(rt_thread_self()->stack_addr, MP_TASK_STACK_SIZE / sizeof(uintptr_t));
 #endif
@@ -94,7 +134,17 @@ static void omv_entry(void *parameter)
     R_GPT_Start(&g_timer3_ctrl);
 #endif
 
-OMV_RESTART:
+soft_reset:
+#ifdef BSP_USING_FS
+    mp_sys_resource_bak(&fd_table_bak);
+#endif
+    led_state(LED_RED, 1);
+    led_state(LED_GREEN, 1);
+    led_state(LED_BLUE, 1);
+
+    fb_alloc_init0();
+    framebuffer_init0();
+
     /* Stack limit should be less than real stack size, so we have a */
     /* chance to recover from limit hit. (Limit is measured in bytes) */
     mp_stack_set_top(stack_top);
@@ -113,7 +163,6 @@ OMV_RESTART:
     usbdbg_init();
     file_buffer_init0();
     sensor_init0();
-    led_init();
 
 #if MICROPY_PY_SENSOR
     if (sensor_init() != 0 && first_soft_reset)
@@ -123,11 +172,18 @@ OMV_RESTART:
 #endif
 
     /* run boot.py and main.py if they exist */
-    exec_boot_script("boot.py", false);
+    bool interrupted = exec_boot_script("boot.py", false);
 
-    if (first_soft_reset)
+    /* urn boot-up LEDs off */
+    led_state(LED_RED, 0);
+    led_state(LED_GREEN, 0);
+    led_state(LED_BLUE, 0);
+
+	/* Run main.py script on first soft-reset */
+    if (first_soft_reset && !interrupted)
     {
         exec_boot_script("main.py", true);
+		goto soft_reset_exit;
     }
 
     /* If there's no script ready, just re-exec REPL */
@@ -189,16 +245,23 @@ OMV_RESTART:
         }
     }
 
+soft_reset_exit:
+	// soft reset
+    mp_printf(&mp_plat_print, "MPY: soft reboot\n");
+
     gc_sweep_all();
     mp_deinit();
 #if MICROPY_PY_THREAD
     mp_thread_deinit();
 #endif
+#ifdef RT_USING_DFS
+    mp_sys_resource_gc(fd_table_bak);
+#endif
     first_soft_reset = false;
-    goto OMV_RESTART;
+    goto soft_reset;
 }
 
-static void exec_boot_script(const char *path, bool interruptible)
+static bool exec_boot_script(const char *path, bool interruptible)
 {
     nlr_buf_t nlr;
     bool interrupted = false;
@@ -228,9 +291,10 @@ static void exec_boot_script(const char *path, bool interruptible)
     {
         mp_obj_print_exception(&mp_plat_print, (mp_obj_t) nlr.ret_val);
     }
+
+	return interrupted;
 }
 
-#pragma clang section text = ".itcm_data"
 static void omv_init_func(void)
 {
     rt_thread_t tid;
@@ -241,7 +305,6 @@ static void omv_init_func(void)
 
     rt_thread_startup(tid);
 }
-#pragma clang section text = ""
 #endif  /* BSP_USING_OPENMV */
 
 void hal_entry(void)

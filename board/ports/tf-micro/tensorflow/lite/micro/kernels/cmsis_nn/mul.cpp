@@ -15,7 +15,7 @@ limitations under the License.
 
 #include "tensorflow/lite/kernels/internal/reference/mul.h"
 
-#include "arm_nnfunctions.h"
+#include "Include/arm_nnfunctions.h"
 #include "tensorflow/lite/kernels/internal/quantization_util.h"
 #include "tensorflow/lite/kernels/internal/reference/integer_ops/mul.h"
 #include "tensorflow/lite/kernels/internal/reference/process_broadcast_shapes.h"
@@ -171,6 +171,14 @@ TfLiteStatus EvalInt16(TfLiteContext* context, TfLiteNode* node) {
 
 TFLMRegistration Register_MUL() {
   return tflite::micro::RegisterOp(MulInit, MulPrepare, Eval);
+}
+
+TFLMRegistration Register_MUL_INT8() {
+  return tflite::micro::RegisterOp(MulInit, MulPrepare, EvalInt8);
+}
+
+TFLMRegistration Register_MUL_INT16() {
+  return tflite::micro::RegisterOp(MulInit, MulPrepare, EvalInt16);
 }
 
 }  // namespace tflite

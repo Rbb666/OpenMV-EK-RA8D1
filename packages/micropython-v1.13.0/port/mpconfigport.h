@@ -72,6 +72,7 @@
 #define MICROPY_PY_ASYNC_AWAIT      (0)
 // control over Python builtins
 #define MICROPY_PY_FUNCTION_ATTRS   (1)
+#define MICROPY_PY_FSTRINGS (1)
 #define MICROPY_PY_BUILTINS_STR_UNICODE (1)
 #define MICROPY_PY_BUILTINS_STR_CENTER (1)
 #define MICROPY_PY_BUILTINS_STR_PARTITION (1)
@@ -418,10 +419,18 @@ extern const struct _mp_obj_module_t mp_module_userfunc;
 //////////////////////////////////// OPENMV ////////////////////////////////////
 extern const struct _mp_obj_module_t mp_module_utime;
 #ifdef BSP_USING_OPENMV
+extern const struct _mp_obj_module_t omv_module;
 extern const struct _mp_obj_module_t sensor_module;
 extern const struct _mp_obj_module_t image_module;
 extern const struct _mp_obj_module_t lcd_module;
 extern const struct _mp_obj_module_t tf_module;
+extern const struct _mp_obj_module_t mjpeg_module;
+extern const struct _mp_obj_module_t gif_module;
+
+#ifdef BSP_USING_OPENMV
+#define OMV_PORT_BUILTIN_MODULES { MP_ROM_QSTR(MP_QSTR_omv), MP_ROM_PTR(&omv_module) },
+#else
+#define OMV_PORT_BUILTIN_MODULES
 #endif /* BSP_USING_OPENMV */
 
 #if defined (BSP_USING_OPENMV) && defined(OPENMV_USING_LCD)
@@ -443,9 +452,22 @@ extern const struct _mp_obj_module_t tf_module;
 #endif /* BSP_USING_OPENMV */
 
 #ifdef BSP_USING_OPENMV
+#define GIF_PORT_BUILTIN_MODULES { MP_ROM_QSTR(MP_QSTR_gif), MP_ROM_PTR(&gif_module) },
+#else
+#define IMAGE_PORT_BUILTIN_MODULES
+#endif /* BSP_USING_OPENMV */
+
+#ifdef BSP_USING_OPENMV
+#define JPEG_PORT_BUILTIN_MODULES { MP_ROM_QSTR(MP_QSTR_mjpeg), MP_ROM_PTR(&mjpeg_module) },
+#else
+#define IMAGE_PORT_BUILTIN_MODULES
+#endif /* BSP_USING_OPENMV */
+
+#if defined (BSP_USING_OPENMV) && defined(OMV_ENABLE_TF)
 #define TF_PORT_BUILTIN_MODULES { MP_ROM_QSTR(MP_QSTR_tf), MP_ROM_PTR(&tf_module) },
 #else
 #define TF_PORT_BUILTIN_MODULES
+#endif /* BSP_USING_OPENMV && OMV_ENABLE_TF*/
 #endif /* BSP_USING_OPENMV */
 ////////////////////////////////////////////////////////////////////////
 
@@ -583,8 +605,11 @@ extern const struct _mp_obj_module_t tf_module;
 #define MICROPY_PORT_BUILTIN_MODULES \
     { MP_ROM_QSTR(MP_QSTR_machine), MP_ROM_PTR(&mp_module_machine) },   \
     { MP_ROM_QSTR(MP_QSTR_pyb), MP_ROM_PTR(&pyb_module) },              \
+    OMV_PORT_BUILTIN_MODULES    \
     SENSOR_PORT_BUILTIN_MODULES \
     IMAGE_PORT_BUILTIN_MODULES  \
+    JPEG_PORT_BUILTIN_MODULES   \
+    GIF_PORT_BUILTIN_MODULES    \
     TF_PORT_BUILTIN_MODULES     \
     LCD_PORT_BUILTIN_MODULES    \
     RTTHREAD_PORT_BUILTIN_MODULES \

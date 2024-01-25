@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================*/
 #include "tensorflow/lite/kernels/internal/reference/pooling.h"
 
-#include "arm_nnfunctions.h"
+#include "Include/arm_nnfunctions.h"
 #include "tensorflow/lite/c/builtin_op_data.h"
 #include "tensorflow/lite/c/common.h"
 #include "tensorflow/lite/kernels/internal/tensor_ctypes.h"
@@ -319,8 +319,24 @@ TfLiteStatus MaxEvalInt16(TfLiteContext* context, TfLiteNode* node) {
 
 }  // namespace
 
+TFLMRegistration Register_AVERAGE_POOL_2D_INT8() {
+  return tflite::micro::RegisterOp(Init, AveragePrepare, AverageEvalInt8);
+}
+
+TFLMRegistration Register_AVERAGE_POOL_2D_INT16() {
+  return tflite::micro::RegisterOp(Init, AveragePrepare, AverageEvalInt16);
+}
+
 TFLMRegistration Register_AVERAGE_POOL_2D() {
   return tflite::micro::RegisterOp(Init, AveragePrepare, AverageEval);
+}
+
+TFLMRegistration Register_MAX_POOL_2D_INT8() {
+  return tflite::micro::RegisterOp(Init, MaxPrepare, MaxEvalInt8);
+}
+
+TFLMRegistration Register_MAX_POOL_2D_INT16() {
+  return tflite::micro::RegisterOp(Init, MaxPrepare, MaxEvalInt16);
 }
 
 TFLMRegistration Register_MAX_POOL_2D() {

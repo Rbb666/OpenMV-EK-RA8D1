@@ -30,9 +30,9 @@
 #include "modmachine.h"
 
 typedef enum {
-    RA_LED1 = 1,
-    RA_LED2 = 2,
-    RA_LED3 = 3,
+    LED_RED = 1,
+    LED_GREEN = 2,
+    LED_BLUE = 3,
 } ra_led_t;
 
 typedef struct _ra_led_obj_t {

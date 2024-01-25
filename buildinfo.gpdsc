@@ -18,102 +18,11 @@
   <components generator="Renesas RA Smart Configurator">
     <component Cclass="Flex Software" Cgroup="Components" Csub="ra">
       <files>
-        <file category="include" name="ra/arm/CMSIS-NN/Include/"/>
         <file category="include" name="ra/arm/CMSIS_5/CMSIS/Core/Include/"/>
         <file category="include" name="ra/fsp/inc/"/>
         <file category="include" name="ra/fsp/inc/api/"/>
         <file category="include" name="ra/fsp/inc/instances/"/>
         <file category="include" name="ra/tes/dave2d/inc/"/>
-        <file category="header" name="ra/arm/CMSIS-NN/Include/arm_nnfunctions.h" path=""/>
-        <file category="header" name="ra/arm/CMSIS-NN/Include/arm_nnsupportfunctions.h" path=""/>
-        <file category="header" name="ra/arm/CMSIS-NN/Include/arm_nn_math_types.h" path=""/>
-        <file category="header" name="ra/arm/CMSIS-NN/Include/arm_nn_tables.h" path=""/>
-        <file category="header" name="ra/arm/CMSIS-NN/Include/arm_nn_types.h" path=""/>
-        <file category="header" name="ra/arm/CMSIS-NN/Include/Internal/arm_nn_compiler.h" path=""/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ActivationFunctions/arm_nn_activation_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ActivationFunctions/arm_relu6_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ActivationFunctions/arm_relu_q15.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ActivationFunctions/arm_relu_q7.c"/>
-        <file category="other" name="ra/arm/CMSIS-NN/Source/ActivationFunctions/CMakeLists.txt"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_elementwise_add_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_elementwise_add_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_elementwise_mul_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_elementwise_mul_s16_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_elementwise_mul_s8.c"/>
-        <file category="other" name="ra/arm/CMSIS-NN/Source/BasicMathFunctions/CMakeLists.txt"/>
-        <file category="other" name="ra/arm/CMSIS-NN/Source/CMakeLists.txt"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConcatenationFunctions/arm_concatenation_s8_w.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConcatenationFunctions/arm_concatenation_s8_x.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConcatenationFunctions/arm_concatenation_s8_y.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConcatenationFunctions/arm_concatenation_s8_z.c"/>
-        <file category="other" name="ra/arm/CMSIS-NN/Source/ConcatenationFunctions/CMakeLists.txt"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_1x1_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_1x1_s8_fast.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_1_x_n_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_fast_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_get_buffer_sizes_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_get_buffer_sizes_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_wrapper_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_wrapper_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_3x3_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_fast_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_get_buffer_sizes_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_get_buffer_sizes_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_s8_opt.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_wrapper_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_wrapper_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_nn_depthwise_conv_s8_core.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_nn_mat_mult_kernel_s8_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_nn_mat_mult_s8.c"/>
-        <file category="other" name="ra/arm/CMSIS-NN/Source/ConvolutionFunctions/CMakeLists.txt"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_fully_connected_get_buffer_sizes_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_fully_connected_get_buffer_sizes_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_fully_connected_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_fully_connected_s8.c"/>
-        <file category="other" name="ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/CMakeLists.txt"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/LSTMFunctions/arm_lstm_unidirectional_s8_s16.c"/>
-        <file category="other" name="ra/arm/CMSIS-NN/Source/LSTMFunctions/CMakeLists.txt"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nntables.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_depthwise_conv_nt_t_padded_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_depthwise_conv_nt_t_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_depthwise_conv_nt_t_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_lstm_calculate_gate_s8_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_lstm_step_s8_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_lstm_update_cell_state_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_lstm_update_output_s8_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_mat_mult_nt_t_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_mat_mul_core_1x_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_mat_mul_core_4x_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_mat_mul_kernel_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_vec_mat_mult_t_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_vec_mat_mult_t_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_vec_mat_mult_t_svdf_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_vec_mat_mul_result_acc_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_q7_to_q15_with_offset.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_s8_to_s16_unordered_with_offset.c"/>
-        <file category="other" name="ra/arm/CMSIS-NN/Source/NNSupportFunctions/CMakeLists.txt"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/PoolingFunctions/arm_avgpool_get_buffer_sizes_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/PoolingFunctions/arm_avgpool_get_buffer_sizes_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/PoolingFunctions/arm_avgpool_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/PoolingFunctions/arm_avgpool_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/PoolingFunctions/arm_max_pool_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/PoolingFunctions/arm_max_pool_s8.c"/>
-        <file category="other" name="ra/arm/CMSIS-NN/Source/PoolingFunctions/CMakeLists.txt"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/ReshapeFunctions/arm_reshape_s8.c"/>
-        <file category="other" name="ra/arm/CMSIS-NN/Source/ReshapeFunctions/CMakeLists.txt"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/SoftmaxFunctions/arm_nn_softmax_common_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/SoftmaxFunctions/arm_softmax_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/SoftmaxFunctions/arm_softmax_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/SoftmaxFunctions/arm_softmax_s8_s16.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/SoftmaxFunctions/arm_softmax_u8.c"/>
-        <file category="other" name="ra/arm/CMSIS-NN/Source/SoftmaxFunctions/CMakeLists.txt"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/SVDFunctions/arm_svdf_s8.c"/>
-        <file category="source" name="ra/arm/CMSIS-NN/Source/SVDFunctions/arm_svdf_state_s16_s8.c"/>
-        <file category="other" name="ra/arm/CMSIS-NN/Source/SVDFunctions/CMakeLists.txt"/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/cachel1_armv7.h" path=""/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_armcc.h" path=""/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_armclang.h" path=""/>

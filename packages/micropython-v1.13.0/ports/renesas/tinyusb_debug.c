@@ -44,6 +44,8 @@
 #define IDE_BAUDRATE_SLOW   (921600)
 #define IDE_BAUDRATE_FAST   (12000000)
 
+extern void __fatal_error();
+
 typedef struct __attribute__((packed))
 {
     uint8_t cmd;
@@ -56,11 +58,9 @@ static uint8_t debug_ringbuf_array[512];
 static volatile bool tinyusb_debug_mode = false;
 ringbuf_t debug_ringbuf = { debug_ringbuf_array, sizeof(debug_ringbuf_array) };
 
-#ifndef RT_USING_HEAP
 /* if there is not enable heap, we should use static thread and stack. */
 static rt_uint8_t tusb_stack[PKG_TINYUSB_STACK_SIZE];
 static struct rt_thread tusb_thread;
-#endif /* RT_USING_HEAP */
 
 static int init_tinyusb(void);
 
@@ -99,50 +99,52 @@ void tinyusb_debug_tx_strn(const char *str, mp_uint_t len)
 }
 
 static void tinyusb_debug_task(void)
-{
+{    
+    if (!tinyusb_debug_enabled() || !tud_cdc_connected() || tud_cdc_available() < 6) {
+        return;
+    }
+    
     uint8_t dbg_buf[DBG_MAX_PACKET];
-    if (tud_cdc_connected() && tud_cdc_available() >= 6)
+    uint32_t count = tud_cdc_read(dbg_buf, 6);
+    if (count < 6 || dbg_buf[0] != 0x30)
     {
-        uint32_t count = tud_cdc_read(dbg_buf, 6);
-        if (count < 6 || dbg_buf[0] != 0x30)
-        {
-            // Maybe we should try to recover from this state
-            // but for now, call __fatal_error which doesn't
-            // return.
-            return;
-        }
-        usbdbg_cmd_t *cmd = (usbdbg_cmd_t *) dbg_buf;
-        uint8_t request = cmd->request;
-        uint32_t xfer_length = cmd->xfer_length;
-        usbdbg_control(NULL, request, xfer_length);
+        // Maybe we should try to recover from this state
+        // but for now, call __fatal_error which doesn't
+        // return.
+        __fatal_error();
+        return;
+    }
+    usbdbg_cmd_t *cmd = (usbdbg_cmd_t *) dbg_buf;
+    uint8_t request = cmd->request;
+    uint32_t xfer_length = cmd->xfer_length;
+    usbdbg_control(NULL, request, xfer_length);
 
-        while (xfer_length)
+    while (xfer_length)
+    {
+        // && tud_cdc_connected())
+        if (tud_task_event_ready())
         {
-            // && tud_cdc_connected())
-            if (tud_task_event_ready())
+            tud_task();
+        }
+        if (request & 0x80)
+        {
+            // Device-to-host data phase
+            int bytes = MIN(xfer_length, DBG_MAX_PACKET);
+            if (bytes <= tud_cdc_write_available())
             {
-                tud_task();
+                xfer_length -= bytes;
+                usbdbg_data_in(dbg_buf, bytes);
+                tud_cdc_write(dbg_buf, bytes);
             }
-            if (request & 0x80)
-            {
-                // Device-to-host data phase
-                int bytes = MIN(xfer_length, DBG_MAX_PACKET);
-                if (bytes <= tud_cdc_write_available())
-                {
-                    xfer_length -= bytes;
-                    usbdbg_data_in(dbg_buf, bytes);
-                    tud_cdc_write(dbg_buf, bytes);
-                }
-                tud_cdc_write_flush();
-            }
-            else
-            {
-                // Host-to-device data phase
-                int bytes = MIN(xfer_length, DBG_MAX_PACKET);
-                uint32_t count = tud_cdc_read(dbg_buf, bytes);
-                xfer_length -= count;
-                usbdbg_data_out(dbg_buf, count);
-            }
+            tud_cdc_write_flush();
+        }
+        else
+        {
+            // Host-to-device data phase
+            int bytes = MIN(xfer_length, DBG_MAX_PACKET);
+            uint32_t count = tud_cdc_read(dbg_buf, bytes);
+            xfer_length -= count;
+            usbdbg_data_out(dbg_buf, count);
         }
     }
 }
@@ -199,21 +201,14 @@ static int init_tinyusb(void)
     rt_thread_t tid;
     tusb_init();
 
-#ifdef RT_USING_HEAP
-    tid = rt_thread_create("tinyusb", tusb_thread_entry, RT_NULL,
-                           PKG_TINYUSB_STACK_SIZE,
-                           PKG_TINYUSB_THREAD_PRIORITY, 10);
-    if (tid == RT_NULL)
-#else
     rt_err_t result;
 
     tid = &tusb_thread;
-    result = rt_thread_init(tid, "cdc_loop", tusb_thread_entry, RT_NULL,
-                            tusb_stack, sizeof(tusb_stack), 4, 10);
+    result = rt_thread_init(tid, "usb", tusb_thread_entry, RT_NULL,
+                            tusb_stack, sizeof(tusb_stack), PKG_TINYUSB_THREAD_PRIORITY, 10);
     if (result != RT_EOK)
-#endif /* RT_USING_HEAP */
     {
-        LOG_E("Fail to create cdc_loop thread");
+        LOG_E("Fail to create tinyusb thread");
         return -1;
     }
 

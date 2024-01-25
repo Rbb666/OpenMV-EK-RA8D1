@@ -15,7 +15,7 @@
 #include "hal_data.h"
 
 // Architecture info
-#define OMV_ARCH_STR            "OMV RA8" // 33 chars max
+#define OMV_ARCH_STR            "RTT&RA8" // OMV4 H7 PRO 32768 SDRAM
 #define OMV_BOARD_TYPE          "M4"
 
 #define OMV_UNIQUE_ID_ADDR      0x03008190
@@ -38,13 +38,13 @@
 #define OMV_CAM_BUS_SDA_PIN     BSP_I2C1_SDA_PIN
 
 // Sensor PLL register value.
-#define OMV_OV7725_PLL_CONFIG   (0x41)  // x4
+#define OMV_OV7725_PLL_CONFIG   (0x01)  // bypass
 
 // Sensor Banding Filter Value
 #define OMV_OV7725_BANDING      (0x7F)
 
 // Enable sensor features
-#define OMV_ENABLE_OV5640_AF    (0)
+#define OMV_ENABLE_OV5640_AF    (1)
 #define OMV_OV5640_XCLK_FREQ    (24000000)
 #define OMV_OV5640_PLL_CTRL2    (0x64)
 #define OMV_OV5640_PLL_CTRL3    (0x13)
@@ -64,6 +64,7 @@
 #define OMV_ENABLE_OV7725       (SENSOR_OV7725)
 #define OMV_ENABLE_OV9650       (SENSOR_OV9650)
 #define OMV_ENABLE_MT9V0XX      (SENSOR_MT9V034)
+#define OMV_ENABLE_GC0328       (SENSOR_GC0328)
 
 // Set which OV767x sensor is used
 #define OMV_OV7670_VERSION      (70)
@@ -96,11 +97,10 @@
 #define OMV_CORE_VBAT           "3.3"
 
 // Buffer size
-#define OMV_FB_SIZE				(OPENMV_FB_SIZE)		// FB memory: header + VGA/GS image
-#define OMV_FB_ALLOC_SIZE		(OPENMV_FB_ALLOC_SIZE)  // minimum fb alloc size
+#define OMV_FB_OVERLAY_MEMORY   SDRAM
+#define OMV_FB_OVERLAY_SIZE     (480 * 1024)            // Fast fb_alloc memory size.
 #define OMV_JPEG_BUF_SIZE       (OPENMV_JPEG_BUF_SIZE)  // IDE JPEG buffer (header + data).
 #define OMV_HEAP_SIZE           (OPENMV_HEAP_SIZE)      // MicroPython's heap
-#define OMV_LINE_BUF_SIZE       (OPENMV_LINE_BUF_SIZE)  // Image line buffer.
 
 // Main image sensor I2C bus
 #define ISC_I2C_ID              (1)

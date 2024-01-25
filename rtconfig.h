@@ -383,11 +383,8 @@
 
 /* OpenMV Buffer Size Configure */
 
-#define OPENMV_FB_SIZE 1048576
-#define OPENMV_FB_ALLOC_SIZE 102400
-#define OPENMV_JPEG_BUF_SIZE 1048576
-#define OPENMV_HEAP_SIZE 233472
-#define OPENMV_LINE_BUF_SIZE 10240
+#define OPENMV_JPEG_BUF_SIZE 32768
+#define OPENMV_HEAP_SIZE 512000
 
 /* Camera Pins Configure */
 
@@ -397,6 +394,7 @@
 /* OpenMV Extra Peripheral Configure */
 
 #define OPENMV_USING_LCD
+#define OMV_ENABLE_TF
 #define SENSOR_BUS_NAME "i2c1"
 #define SENSOR_MT9V034 1
 #define SENSOR_OV2640 1
@@ -405,5 +403,6 @@
 #define SENSOR_OV7670 1
 #define SENSOR_OV7690 0
 #define SENSOR_OV9650 0
+#define SENSOR_GC0328 1
 
 #endif

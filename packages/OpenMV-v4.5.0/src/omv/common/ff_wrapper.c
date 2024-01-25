@@ -11,46 +11,13 @@
 
 #include <string.h>
 #include "py/runtime.h"
-#include "py/lexer.h"
-//#include "extmod/vfs.h"
-//#include "extmod/vfs_fat.h"
+#include "extmod/vfs.h"
+#include "extmod/vfs_fat.h"
 
 #include "omv_common.h"
 #include "fb_alloc.h"
 #include "ff_wrapper.h"
 #define FF_MIN(x, y)    (((x) < (y))?(x):(y))
-
-const char *ffs_strerror(FRESULT res)
-{
-    static const char *ffs_errors[]={
-        "Succeeded",
-        "A hard error occurred in the low level disk I/O layer",
-        "Assertion failed",
-        "The physical drive cannot work",
-        "Could not find the file",
-        "Could not find the path",
-        "The path name format is invalid",
-        "Access denied due to prohibited access or directory full",
-        "Access denied due to prohibited access",
-        "The file/directory object is invalid",
-        "The physical drive is write protected",
-        "The logical drive number is invalid",
-        "The volume has no work area",
-        "There is no valid FAT volume",
-        "The f_mkfs() aborted due to any parameter error",
-        "Could not get a grant to access the volume within defined period",
-        "The operation is rejected according to the file sharing policy",
-        "LFN working buffer could not be allocated",
-        "Number of open files > _FS_SHARE",
-        "Given parameter is invalid",
-    };
-
-    if (res>sizeof(ffs_errors)/sizeof(ffs_errors[0])) {
-        return "unknown error";
-    } else {
-        return ffs_errors[res];
-    }
-}
 
 NORETURN static void ff_fail(FIL *fp, FRESULT res) {
     if (fp) {
@@ -167,150 +134,79 @@ void file_sync(FIL *fp) {
 // These wrapper functions are used for backward compatibility with
 // OpenMV code using vanilla FatFS. Note: Extracted from cc3200 ftp.c
 
-//STATIC FATFS *lookup_path(const TCHAR **path) {
-//    mp_vfs_mount_t *fs = mp_vfs_lookup_path(*path, path);
-//    if (fs == MP_VFS_NONE || fs == MP_VFS_ROOT) {
-//        return NULL;
-//    }
-//    // here we assume that the mounted device is FATFS
-//    return &((fs_user_mount_t*)MP_OBJ_TO_PTR(fs->obj))->fatfs;
-//}
-
-int lookup_path(const TCHAR *fname, vstr_t *fpath)
-{
-	size_t path_num;
-    mp_obj_t *path_items;
-    mp_obj_list_get(mp_sys_path, &path_num, &path_items);
-	for (size_t i = 0; i < path_num; i++) {
-            vstr_reset(fpath);
-			memset(fpath->buf,0x00,fpath->alloc);
-            size_t p_len;
-            const char *p = mp_obj_str_get_data(path_items[i], &p_len);
-            if (p_len > 0) {
-                vstr_add_strn(fpath, p, p_len);
-            }
-            vstr_add_strn(fpath, fname, strlen(fname));
-			fpath->buf[fpath->len+1] = 0x00;
-            mp_import_stat_t stat = mp_import_stat(fpath->buf);
-			if (stat == MP_IMPORT_STAT_FILE)
-			{
-				return FR_OK;
-			}
-        }
-	return FR_NO_FILE;
+STATIC FATFS *lookup_path(const TCHAR **path) {
+    mp_vfs_mount_t *fs = mp_vfs_lookup_path(*path, path);
+    if (fs == MP_VFS_NONE || fs == MP_VFS_ROOT) {
+        return NULL;
+    }
+    // here we assume that the mounted device is FATFS
+    return &((fs_user_mount_t *) MP_OBJ_TO_PTR(fs->obj))->fatfs;
 }
-
-
-//FRESULT f_open_helper(FIL *fp, const TCHAR *path, BYTE mode) {
-//    if (fp != NULL)
-//		memset(fp,0x0,sizeof(FIL));
-//	
-//	if ((mode & (FA_READ|FA_OPEN_EXISTING)) == (FA_READ|FA_OPEN_EXISTING))
-//	{
-//		VSTR_FIXED(full_path, MICROPY_ALLOC_PATH_MAX)
-//		if (lookup_path(path,&full_path) == FR_OK)
-//			return dfs_file_open(fp, full_path.buf, O_RDONLY);
-//	}
-//	else if ((mode & (FA_WRITE|FA_CREATE_ALWAYS)) == (FA_WRITE|FA_CREATE_ALWAYS))
-//	{
-//        if(strchr(path, '/') != 0)
-//        {
-//		    return dfs_file_open(fp, path, O_WRONLY|O_RDWR| O_CREAT);
-//        }
-//        else
-//        {
-//            VSTR_FIXED(full_path, MICROPY_ALLOC_PATH_MAX)
-//            if(rt_device_find("sd0") != RT_NULL)
-//            {
-//                vstr_add_strn(&full_path, "/sd/", strlen("/sd/"));
-//            }
-//            else
-//            {
-//                vstr_add_strn(&full_path, "/flash/", strlen("/flash/"));
-//            }
-//            vstr_add_strn(&full_path, path, strlen(path));
-//            full_path.buf[full_path.len+1] = 0x00;
-//            mp_printf(MP_PYTHON_PRINTER, "Openfile : %s!\r\n",full_path.buf);
-//            printf("Openfile : %s\n",full_path.buf);
-//            return f_open(fp, full_path.buf, O_WRONLY | O_CREAT);
-//        }
-//	}
-//    return FR_NO_FILE;
-//}
 
 FRESULT f_open_helper(FIL *fp, const TCHAR *path, BYTE mode) {
-//    FATFS *fs = lookup_path(&path);
-//    if (fs == NULL) {
-//        return FR_NO_PATH;
-//    }
-//    return f_open(fs, fp, path, mode);
-    return f_open(fp, path, mode);
+    FATFS *fs = lookup_path(&path);
+    if (fs == NULL) {
+        return FR_NO_PATH;
+    }
+    return f_open(fs, fp, path, mode);
 }
 
-//FRESULT f_opendir_helper(FF_DIR *dp, const TCHAR *path) {
-//    FATFS *fs = lookup_path(&path);
-//    if (fs == NULL) {
-//        return FR_NO_PATH;
-//    }
-//    return f_opendir(fs, dp, path);
-//}
+FRESULT f_opendir_helper(FF_DIR *dp, const TCHAR *path) {
+    FATFS *fs = lookup_path(&path);
+    if (fs == NULL) {
+        return FR_NO_PATH;
+    }
+    return f_opendir(fs, dp, path);
+}
 
 FRESULT f_stat_helper(const TCHAR *path, FILINFO *fno) {
-//    FATFS *fs = lookup_path(&path);
-//    if (fs == NULL) {
-//        return FR_NO_PATH;
-//    }
-//    return f_stat(fs, path, fno);
-    return f_stat(path, fno);
+    FATFS *fs = lookup_path(&path);
+    if (fs == NULL) {
+        return FR_NO_PATH;
+    }
+    return f_stat(fs, path, fno);
 }
 
 FRESULT f_mkdir_helper(const TCHAR *path) {
-//    FATFS *fs = lookup_path(&path);
-//    if (fs == NULL) {
-//        return FR_NO_PATH;
-//    }
-//    return f_mkdir(fs, path);
-    return f_unlink(path);
+    FATFS *fs = lookup_path(&path);
+    if (fs == NULL) {
+        return FR_NO_PATH;
+    }
+    return f_mkdir(fs, path);
 }
 
 FRESULT f_unlink_helper(const TCHAR *path) {
-//    FATFS *fs = lookup_path(&path);
-//    if (fs == NULL) {
-//        return FR_NO_PATH;
-//    }
-//    return f_unlink(fs, path);
-    return f_unlink(path);
+    FATFS *fs = lookup_path(&path);
+    if (fs == NULL) {
+        return FR_NO_PATH;
+    }
+    return f_unlink(fs, path);
 }
 
 FRESULT f_rename_helper(const TCHAR *path_old, const TCHAR *path_new) {
-//    FATFS *fs_old = lookup_path(&path_old);
-//    if (fs_old == NULL) {
-//        return FR_NO_PATH;
-//    }
-//    FATFS *fs_new = lookup_path(&path_new);
-//    if (fs_new == NULL) {
-//        return FR_NO_PATH;
-//    }
-//    if (fs_old != fs_new) {
-//        return FR_NO_PATH;
-//    }
-//    return f_rename(fs_new, path_old, path_new);
-    return f_rename(path_old, path_new);
+    FATFS *fs_old = lookup_path(&path_old);
+    if (fs_old == NULL) {
+        return FR_NO_PATH;
+    }
+    FATFS *fs_new = lookup_path(&path_new);
+    if (fs_new == NULL) {
+        return FR_NO_PATH;
+    }
+    if (fs_old != fs_new) {
+        return FR_NO_PATH;
+    }
+    return f_rename(fs_new, path_old, path_new);
 }
 
 FRESULT f_touch_helper(const TCHAR *path) {
     FIL fp;
-//    FATFS *fs = lookup_path(&path);
-//    if (fs == NULL) {
-//        return FR_NO_PATH;
-//    }
+    FATFS *fs = lookup_path(&path);
+    if (fs == NULL) {
+        return FR_NO_PATH;
+    }
 
-//    if (f_stat(fs, path, NULL) != FR_OK) {
-//        f_open(fs, &fp, path, FA_WRITE | FA_CREATE_ALWAYS);
-//        f_close(&fp);
-//    }
-    if (f_stat(path, NULL) != FR_OK) {
-        f_open(&fp, path, FA_WRITE | FA_CREATE_ALWAYS);
+    if (f_stat(fs, path, NULL) != FR_OK) {
+        f_open(fs, &fp, path, FA_WRITE | FA_CREATE_ALWAYS);
         f_close(&fp);
     }
 

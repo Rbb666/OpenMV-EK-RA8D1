@@ -23,6 +23,7 @@
 #define HM0XX0_SLV_ADDR         (0x48)
 #define GC2145_SLV_ADDR         (0x78)
 #define FROGEYE2020_SLV_ADDR    (0x6E)
+#define GC0328_SLV_ADDR         (0x42)
 
 // Chip ID Registers
 #define OV5640_CHIP_ID          (0x300A)
@@ -57,6 +58,7 @@
 #define GC2145_ID               (0x21)
 #define PAJ6100_ID              (0x6100)
 #define FROGEYE2020_ID          (0x2020)
+#define GC0328_ID               (0x9d)
 
 typedef enum {
     FRAMESIZE_INVALID = 0,

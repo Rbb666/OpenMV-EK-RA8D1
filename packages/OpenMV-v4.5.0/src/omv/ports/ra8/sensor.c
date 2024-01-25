@@ -38,28 +38,26 @@ int sensor_init(void)
     /* Reset the sesnor state */
     memset(&sensor, 0, sizeof(sensor_t));
 
-    // Set default snapshot function.
+    /* Set default snapshot function */
     sensor.snapshot = sensor_snapshot;
 
-    // Detect and initialize the image sensor.
+    /* Detect and initialize the image sensor */
     if ((init_ret = sensor_probe_init(ISC_I2C_ID, ISC_I2C_SPEED)) != 0)
     {
         LOG_E("not found any sensors !!");
-        // Sensor probe/init failed.
+        /* Sensor probe/init failed */
         return init_ret;
     }
 
-    // Set default color palette.
+    /* Set default color palette */
     sensor.color_palette = rainbow_table;
     sensor.pwdn_pol = ACTIVE_HIGH;
 
-    // Disable VSYNC IRQ and callback
+    /* Disable VSYNC IRQ and callback */
     sensor_set_vsync_callback(NULL);
 
-    // All good!
+    /* All good! */
     sensor.detected = true;
-
-    //ceu_device_close();
 
     rt_completion_init(&ceu_completion);
 
@@ -71,11 +69,6 @@ int sensor_set_xclk_frequency(uint32_t frequency)
     return 0;
 }
 
-uint32_t sensor_get_xclk_frequency(void)
-{
-    return 0;
-}
-
 int sensor_set_vsync_callback(vsync_cb_t vsync_cb)
 {
     return 0;
@@ -83,6 +76,71 @@ int sensor_set_vsync_callback(vsync_cb_t vsync_cb)
 
 int sensor_dcmi_config(uint32_t pixformat)
 {
+    return 0;
+}
+
+int sensor_set_windowing(int x, int y, int w, int h)
+{
+    /* Check if the value has changed. */
+    if ((MAIN_FB()->x == x) && (MAIN_FB()->y == y) &&
+            (MAIN_FB()->u == w) && (MAIN_FB()->v == h))
+    {
+        return 0;
+    }
+
+    if (sensor.pixformat == PIXFORMAT_JPEG)
+    {
+        return SENSOR_ERROR_PIXFORMAT_UNSUPPORTED;
+    }
+
+    /* Disable any ongoing frame capture. */
+    sensor_abort();
+
+    /* Flush previous frame. */
+    framebuffer_update_jpeg_buffer();
+
+    ceu_instance_ctrl_t *p_instance_ctrl = (ceu_instance_ctrl_t *) gp_ceu_instance->p_ctrl;
+    ceu_extended_cfg_t *p_extend = (ceu_extended_cfg_t *) p_instance_ctrl->p_cfg->p_extend;
+
+    bool bus_width_8_bit = (CEU_DATA_BUS_SIZE_8_BIT == p_extend->data_bus_width);
+    uint32_t cycles_per_byte = (bus_width_8_bit ? 2 : 1);
+    uint32_t bytes_per_cycle = p_extend->data_bus_width + 1;
+    uint32_t bytes_per_line  = w * p_instance_ctrl->p_cfg->bytes_per_pixel;
+    uint32_t cycles_per_line = bytes_per_line / bytes_per_cycle;
+    uint32_t lines_per_image = (uint32_t)h;
+    uint32_t hfclp           = cycles_per_line / cycles_per_byte;
+    uint32_t vfclp           = (uint32_t)lines_per_image;
+
+    uint32_t x_cycle_start = (uint32_t) x * cycles_per_byte;
+    R_CEU->CAMOR = ((x_cycle_start << R_CEU_CAMOR_HOFST_Pos) & R_CEU_CAMOR_HOFST_Msk) |
+                   (((uint32_t) y << R_CEU_CAMOR_VOFST_Pos) & R_CEU_CAMOR_VOFST_Msk);
+
+    R_CEU->CAPWR = ((cycles_per_line << R_CEU_CAPWR_HWDTH_Pos) & R_CEU_CAPWR_HWDTH_Msk) |
+                   ((lines_per_image << R_CEU_CAPWR_VWDTH_Pos) & R_CEU_CAPWR_VWDTH_Msk);
+
+    R_CEU->CFWCR = 0;
+
+    R_CEU->CFSZR = ((vfclp << R_CEU_CFSZR_VFCLP_Pos) & R_CEU_CFSZR_VFCLP_Msk) |
+                   ((hfclp << R_CEU_CFSZR_HFCLP_Pos) & R_CEU_CFSZR_HFCLP_Msk);
+
+    /* Capture Destination Width Register (CDWDR)
+     * [Note] Set CHDW to CAPWR.HWDTH * 2 for 16-bit interface mode */
+    R_CEU->CDWDR = bytes_per_line;
+
+    /* Capture Low-Pass Filter Control Register (CLFCR)  */
+    R_CEU->CLFCR = 0U;
+
+    /* Skip the first frame. */
+    MAIN_FB()->pixfmt = PIXFORMAT_INVALID;
+    MAIN_FB()->x = x;
+    MAIN_FB()->y = y;
+
+    MAIN_FB()->w = MAIN_FB()->u = w;
+    MAIN_FB()->h = MAIN_FB()->v = h;
+
+    /* Pickout a good buffer count for the user */
+    framebuffer_auto_adjust_buffers();
+
     return 0;
 }
 
@@ -148,13 +206,13 @@ int sensor_set_framesize(framesize_t framesize)
 
     ceu_device_open();
 
-    // Disable any ongoing frame capture.
+    /* Disable any ongoing frame capture */
     sensor_abort();
 
-    // Flush previous frame.
+    /* Flush previous frame */
     framebuffer_update_jpeg_buffer();
 
-    // Call the sensor specific function
+    /* Call the sensor specific function */
     if (sensor.set_framesize == NULL)
     {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -165,21 +223,22 @@ int sensor_set_framesize(framesize_t framesize)
         return SENSOR_ERROR_CTL_FAILED;
     }
 
-    mp_hal_delay_ms(100); // wait for the camera to settle
+    /* wait for the camera to settle */
+    mp_hal_delay_ms(100);
 
-    // Set framebuffer size
+    /* Set framebuffer size */
     sensor.framesize = framesize;
 
-    // Skip the first frame.
+    /* Skip the first frame */
     MAIN_FB()->pixfmt = PIXFORMAT_INVALID;
 
-    // Set MAIN FB x offset, y offset, width, height, backup width, and backup height.
+    /* Set MAIN FB x offset, y offset, width, height, backup width, and backup height */
     MAIN_FB()->x = 0;
     MAIN_FB()->y = 0;
     MAIN_FB()->w = MAIN_FB()->u = resolution[framesize][0];
     MAIN_FB()->h = MAIN_FB()->v = resolution[framesize][1];
 
-    // Pickout a good buffer count for the user.
+    /* Pickout a good buffer count for the user */
     framebuffer_auto_adjust_buffers();
 
     return 0;
@@ -255,19 +314,28 @@ static int ceu_device_snapshot(void *buffer)
     return 0;
 }
 
-int write_raw_yuyv_to_gray(uint8_t *data, uint8_t *grey, int len)
+int write_raw_yuyv_to_gray(sensor_t *sensor, uint8_t *out, const uint8_t *in, size_t len)
 {
-    int j = 0;
-    for (int i = 0; i < len; i += 2)
-    {
-        grey[j] = data[i];
-        j++;
+    // YUV to Grayscale
+    if (sensor->hw_flags.gs_bpp == 2) {
+        size_t end = len / 8;
+        for (size_t i = 0; i < end; ++i) {
+            out[0] = in[0];
+            out[1] = in[2];
+            out[2] = in[4];
+            out[3] = in[6];
+            out += 4;
+            in += 8;
+        }
+        return len / 2;
     }
-    return 0;
+
+    // just memcpy
+    memcpy(out, in, len);
+    return len;
 }
 
-// This is the default snapshot function, which can be replaced in sensor_init functions. This function
-// uses the DCMI and DMA to capture frames and each line is processed in the DCMI_DMAConvCpltUser function.
+/* This is the default snapshot function, which can be replaced in sensor_init functions. */
 int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
 {
     uint32_t w = MAIN_FB()->u;
@@ -293,11 +361,13 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
         framebuffer_set_buffers(1);
     }
 
-    // Compress the framebuffer for the IDE preview.
+    /* Compress the framebuffer for the IDE preview. */
     framebuffer_update_jpeg_buffer();
 
-    // Free the current FB head.
+    /* Free the current FB head */
     framebuffer_free_current_buffer();
+
+    framebuffer_setup_buffers();
 
     vbuffer_t *buffer = framebuffer_get_tail(FB_NO_FLAGS);
     if (!buffer)
@@ -309,7 +379,7 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
 
     rt_completion_wait(&ceu_completion, RT_WAITING_FOREVER);
 
-    // Wait for the DMA to finish the transfer.
+    /* Wait for the DMA to finish the transfer */
     for (mp_uint_t ticks = mp_hal_ticks_ms(); buffer == NULL;)
     {
         buffer = framebuffer_get_head(FB_NO_FLAGS);
@@ -331,12 +401,12 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
         MAIN_FB()->h = w;
     }
 
-    // Fix the BPP.
+    /* Fix the BPP. */
     switch (sensor->pixformat)
     {
     case PIXFORMAT_GRAYSCALE:
         MAIN_FB()->pixfmt = PIXFORMAT_GRAYSCALE;
-        write_raw_yuyv_to_gray(buffer->data, buffer->data, w * h * 2);
+		write_raw_yuyv_to_gray(sensor, buffer->data, buffer->data, w * h * 2);
         break;
     case PIXFORMAT_RGB565:
         MAIN_FB()->pixfmt = PIXFORMAT_RGB565;
@@ -371,14 +441,14 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
         break;
     }
 
-    // Swap bytes if set.
+    /* Swap bytes if set */
     if ((MAIN_FB()->pixfmt == PIXFORMAT_RGB565 && sensor->hw_flags.rgb_swap) ||     \
             (MAIN_FB()->pixfmt == PIXFORMAT_YUV422 && sensor->hw_flags.yuv_swap))   \
     {
         unaligned_memcpy_rev16(buffer->data, buffer->data, w * h);
     }
 
-    // Set the user image.
+    /* Set the user image */
     framebuffer_init_image(image);
     return 0;
 }

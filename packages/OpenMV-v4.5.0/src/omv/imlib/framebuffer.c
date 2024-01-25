@@ -13,16 +13,23 @@
 #include "framebuffer.h"
 #include "omv_boardconfig.h"
 
-#define DRV_DEBUG
-#define LOG_TAG             "framebuffer"
-#include <drv_log.h>
+#define FB_ALIGN_SIZE_ROUND_DOWN(x)    (((x) / FRAMEBUFFER_ALIGNMENT) * FRAMEBUFFER_ALIGNMENT)
+#define FB_ALIGN_SIZE_ROUND_UP(x)      FB_ALIGN_SIZE_ROUND_DOWN(((x) + FRAMEBUFFER_ALIGNMENT - 1))
+#define CONSERVATIVE_JPEG_BUF_SIZE     (OMV_JPEG_BUF_SIZE - 64)
 
-#define FB_ALIGN_SIZE_ROUND_DOWN(x) (((x) / FRAMEBUFFER_ALIGNMENT) * FRAMEBUFFER_ALIGNMENT)
-#define FB_ALIGN_SIZE_ROUND_UP(x)   FB_ALIGN_SIZE_ROUND_DOWN(((x) + FRAMEBUFFER_ALIGNMENT - 1))
-#define CONSERVATIVE_JPEG_BUF_SIZE  (OMV_JPEG_BUF_SIZE-64)
+#if __ARMCOMPILER_VERSION >= 6000000
+extern char Image$$OMV_MAIN_FB$$Base;        
+extern char Image$$OMV_FB_END$$Base;
+#define _fb_base Image$$OMV_MAIN_FB$$Base
+#define _fb_end Image$$OMV_FB_END$$Base
 
-framebuffer_t *framebuffer = NULL;
-jpegbuffer_t *jpeg_framebuffer = NULL;
+extern char _fb_base, _fb_end;
+framebuffer_t *framebuffer = (framebuffer_t*) &_fb_base;
+
+#define JPEG_BUF __attribute__((section(".data")))
+JPEG_BUF uint32_t _jpeg_buf[OMV_JPEG_BUF_SIZE];
+jpegbuffer_t *jpeg_framebuffer = (jpegbuffer_t *) &_jpeg_buf;
+#endif
 
 void fb_set_streaming_enabled(bool enable) {
     framebuffer->streaming_enabled = enable;
@@ -71,22 +78,7 @@ void fb_encode_for_ide(uint8_t *ptr, image_t *img) {
     *ptr++ = 0xFE;
 }
 
-void framebuffer_init0(void)
-{
-    extern struct rt_memheap system_heap;
-
-    jpeg_framebuffer = rt_memheap_alloc(&system_heap, OMV_JPEG_BUF_SIZE);
-    framebuffer = rt_memheap_alloc(&system_heap, OMV_FB_SIZE);
-
-	RT_ASSERT(jpeg_framebuffer != NULL);
-    RT_ASSERT(framebuffer != NULL);
-    
-    memset(framebuffer, 0x0, OMV_FB_SIZE);
-    memset(jpeg_framebuffer, 0x0, OMV_JPEG_BUF_SIZE);
-
-    LOG_I("framebuffer addr:(%p), size:[%d]", framebuffer, OMV_FB_SIZE);
-    LOG_I("jpeg framebuffer addr:(%p), size:[%d]", jpeg_framebuffer, OMV_JPEG_BUF_SIZE);
-
+void framebuffer_init0() {
     // Save fb_enabled flag state
     int fb_enabled = JPEG_FB()->enabled;
 
@@ -162,9 +154,8 @@ void framebuffer_update_jpeg_buffer() {
                 mutex_unlock(&jpeg_framebuffer->lock, MUTEX_TID_OMV);
             }
 
-            if (does_not_fit)
-            {
-                LOG_W("Warning: JPEG/PNG too big! Trying framebuffer transfer using fallback method!");
+            if (does_not_fit) {
+                printf("Warning: JPEG/PNG too big! Trying framebuffer transfer using fallback method!\n");
                 int new_size = fb_encode_for_ide_new_size(src);
                 fb_alloc_mark();
                 uint8_t *temp = fb_alloc(new_size, FB_ALLOC_NO_HINT);
@@ -250,8 +241,7 @@ static uint32_t framebuffer_raw_buffer_size() {
     uint32_t size = (uint32_t) (fb_alloc_stack_pointer() - ((char *) framebuffer->data));
     // We don't want to give all of the frame buffer RAM to the frame buffer. So, we will limit
     // the maximum amount of RAM we return.
-//    uint32_t raw_buf_size = (&_fb_end - &_fb_base);
-    uint32_t raw_buf_size = OMV_FB_SIZE;
+    uint32_t raw_buf_size = (&_fb_end - &_fb_base);
     return IM_MIN(size, raw_buf_size);
 }
 

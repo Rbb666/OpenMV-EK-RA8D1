@@ -71,11 +71,11 @@ path   += [cwd + '/signal/src/kiss_fft_wrappers']
 
 CPPDEFINES = ['TF_LITE_STATIC_MEMORY']
 
-group = DefineGroup('lib-tf', libtf_src, depend = [''])
-group = DefineGroup('tf-signal', signal_src, depend = [''])
-group = DefineGroup('tf-micro', micro_src, depend = [''])
-group = DefineGroup('tf-micro-nn', micro_nn_src, depend = [''])
-group = DefineGroup('tf-micro-kernels', micro_kernels_src, depend = [''])
-group = group + DefineGroup('tf-lite', src, depend = [''], CPPPATH = path, CPPDEFINES=CPPDEFINES)
+group = DefineGroup('tensorflow/lib', libtf_src, depend = ['OMV_ENABLE_TF'])
+group = DefineGroup('tensorflow/signal', signal_src, depend = ['OMV_ENABLE_TF'])
+group = DefineGroup('tensorflow/micro', micro_src, depend = ['OMV_ENABLE_TF'])
+group = DefineGroup('tensorflow/cmsis_nn', micro_nn_src, depend = ['OMV_ENABLE_TF'])
+group = DefineGroup('tensorflow/kernels', micro_kernels_src, depend = ['OMV_ENABLE_TF'])
+group = group + DefineGroup('tensorflow', src, depend = ['OMV_ENABLE_TF'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
 
 Return('group')

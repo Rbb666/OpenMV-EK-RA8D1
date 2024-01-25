@@ -794,14 +794,15 @@ static int set_pixformat(sensor_t *sensor, pixformat_t pixformat) {
     }
 
     switch (pixformat) {
-        case PIXFORMAT_GRAYSCALE:
-            ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, FORMAT_CONTROL, 0x10);
-            ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, FORMAT_CONTROL_MUX, 0x00);
-            break;
+//        case PIXFORMAT_GRAYSCALE:
+//            ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, FORMAT_CONTROL, 0x10);
+//            ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, FORMAT_CONTROL_MUX, 0x00);
+//            break;
         case PIXFORMAT_RGB565:
             ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, FORMAT_CONTROL, 0x6F);
             ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, FORMAT_CONTROL_MUX, 0x01);
             break;
+		case PIXFORMAT_GRAYSCALE:
         case PIXFORMAT_YUV422:
             ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, FORMAT_CONTROL, 0x30);
             ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, FORMAT_CONTROL_MUX, 0x00);
@@ -1449,7 +1450,7 @@ int ov5640_init(sensor_t *sensor) {
     sensor->hw_flags.fsync = 0;
     sensor->hw_flags.jpege = 1;
     sensor->hw_flags.jpeg_mode = 4;
-    sensor->hw_flags.gs_bpp = 1;
+    sensor->hw_flags.gs_bpp = 2;
     sensor->hw_flags.rgb_swap = 0;
     sensor->hw_flags.yuv_order = SENSOR_HW_FLAGS_YVU422;
     sensor->hw_flags.blc_size = 8;

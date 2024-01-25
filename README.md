@@ -86,7 +86,7 @@ OpenMV 是由美国克里斯团队基于 MicroPython 发起的开源机器视觉
 
 ### Todo
 
-- [ ] TFlite-Micro 支持
+- [x] TFlite-Micro 支持
 - [ ] 文件相关支持
 
 ## OpenMV 使用说明
