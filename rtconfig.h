@@ -374,6 +374,7 @@
 #define BSP_USING_FS
 #define BSP_USING_SPICARD_FS
 #define BSP_USING_PWM
+#define BSP_USING_PWM3
 #define BSP_USING_PWM6
 #define BSP_USING_LCD
 #define BSP_USING_MIPI_LCD
@@ -395,6 +396,8 @@
 
 #define OPENMV_USING_LCD
 #define OMV_ENABLE_TF
+#define SENSOR_USING_XCLK
+#define CAM_PWM_DEV_NAME "pwm3"
 #define SENSOR_BUS_NAME "i2c1"
 #define SENSOR_MT9V034 1
 #define SENSOR_OV2640 1

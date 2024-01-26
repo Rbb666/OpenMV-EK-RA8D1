@@ -127,13 +127,6 @@ static void omv_entry(void *parameter)
     mp_thread_init(rt_thread_self()->stack_addr, MP_TASK_STACK_SIZE / sizeof(uintptr_t));
 #endif
 
-#ifdef SENSOR_USING_CAM_XCLK
-    /* Initialize GPT module */
-    R_GPT_Open(&g_timer3_ctrl, &g_timer3_cfg);
-    /* Start GPT module to provide the 24MHz clock frequency output for the camera clock source */
-    R_GPT_Start(&g_timer3_ctrl);
-#endif
-
 soft_reset:
 #ifdef BSP_USING_FS
     mp_sys_resource_bak(&fd_table_bak);

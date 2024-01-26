@@ -40,6 +40,12 @@ int sensor_init(void)
 
     /* Set default snapshot function */
     sensor.snapshot = sensor_snapshot;
+    
+    /* Configure the sensor external clock (XCLK) */
+    if (sensor_set_xclk_frequency(OMV_XCLK_FREQUENCY) != 0) {
+        /* Failed to initialize the sensor clock */
+        return SENSOR_ERROR_TIM_INIT_FAILED;
+    }
 
     /* Detect and initialize the image sensor */
     if ((init_ret = sensor_probe_init(ISC_I2C_ID, ISC_I2C_SPEED)) != 0)
@@ -66,6 +72,17 @@ int sensor_init(void)
 
 int sensor_set_xclk_frequency(uint32_t frequency)
 {
+    uint32_t period, pulse;
+    struct rt_device_pwm *pwm_dev;
+    
+    pulse = frequency / 1000000;
+    period = pulse * 2;
+
+    pwm_dev = (struct rt_device_pwm *)rt_device_find(CAM_PWM_DEV_NAME);
+    /* pwm frequency:24MHz */
+    rt_pwm_set(pwm_dev, 0, period, pulse);
+    rt_pwm_enable(pwm_dev, 0);
+
     return 0;
 }
 

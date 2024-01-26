@@ -321,7 +321,7 @@
     <module id="module.driver.timer_on_gpt.1733199750">
       <property id="module.driver.timer.name" value="g_timer3"/>
       <property id="module.driver.timer.channel" value="3"/>
-      <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_periodic"/>
+      <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_pwm"/>
       <property id="module.driver.timer.period" value="24000"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_frequency_khz"/>
       <property id="module.driver.timer.gtior.gtioa.initial_output_level" value="module.driver.timer.gtior.gtioa.initial_output_level.low"/>

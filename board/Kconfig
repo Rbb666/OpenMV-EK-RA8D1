@@ -544,6 +544,9 @@ menu "Hardware Drivers Config"
             default n
             select RT_USING_PWM
             if BSP_USING_PWM
+                config BSP_USING_PWM3
+                    bool "Enable GPT3 (16-Bits) output PWM"
+                    default n
                 config BSP_USING_PWM6
                     bool "Enable GPT6 (16-Bits) output PWM"
                     default n
@@ -710,10 +713,15 @@ menuconfig BSP_USING_OPENMV
             bool "Enable tflite support"
             default n
 
-        config SENSOR_USING_CAM_XCLK
-            bool "Use pwm to provide xclk pin signal"
-            # select RT_USING_PWM
+        menuconfig SENSOR_USING_XCLK
+            bool "Enable SENSOR XCLK"
             default n
+            select RT_USING_PWM
+            if SENSOR_USING_XCLK
+                config CAM_PWM_DEV_NAME
+                    string "Camera pwm device name"
+                    default "pwm3"
+            endif
 
         config SENSOR_BUS_NAME
             string "Sensor I2C Bus Name"

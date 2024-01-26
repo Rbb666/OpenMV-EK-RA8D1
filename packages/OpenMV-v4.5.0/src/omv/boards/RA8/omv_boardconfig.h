@@ -46,7 +46,7 @@
 // Enable sensor features
 #define OMV_ENABLE_OV5640_AF    (1)
 #define OMV_OV5640_XCLK_FREQ    (24000000)
-#define OMV_OV5640_PLL_CTRL2    (0x64)
+#define OMV_OV5640_PLL_CTRL2    (0x54)
 #define OMV_OV5640_PLL_CTRL3    (0x13)
 #define OMV_OV5640_REV_Y_CHECK  (0)
 #define OMV_OV5640_REV_Y_FREQ   (25000000)
